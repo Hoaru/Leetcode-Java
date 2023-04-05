@@ -1,0 +1,42 @@
+class Solution {
+    public String buildString(ArrayList<String> arr, int width, int occu, boolean last) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("");
+        if(!last) {
+            //intervals num
+            int num = arr.size() - 1;
+            int base = (width - occu)
+        }
+        else {
+            for(String s: arr) {
+                sb.append(s);
+                sb.append(s);
+            }
+            sb.deleteCharAt(sb.length() - 1)
+        }
+    }
+
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> res = new ArrayList<>();
+        int n = words.length;
+        int oneWordLen;
+        int empt = maxWidth;
+        ArrayList<String> currArr = new ArrayList<>();
+        for(int i = 0; i < n; i++) {
+            oneWordLen = words[i].length();
+            if(empt > oneWordLen) {
+                empt -= oneWordLen;
+                currArr.add(words[i]);
+            }
+            // wrap
+            else {
+                boolean last = i == n - 1;
+                String bu = buildString(currArr, maxWidth, maxWidth - empt, last);
+                res.add(bu);
+                currArr = new ArrayList<>();
+                empt = maxWidth;
+            }
+        }
+        return res;
+    }
+}
