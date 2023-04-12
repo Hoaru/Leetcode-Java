@@ -1,0 +1,39 @@
+public static ArrayList<String> readCsvByBufferedReader(String filePath) {
+        File csv = new File(filePath);
+        csv.setReadable(true);
+        csv.setWritable(true);
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+            isr = new InputStreamReader(new FileInputStream(csv), "UTF-8");
+            br = new BufferedReader(isr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String line = "";
+        ArrayList<String> arr_res = new ArrayList<>();
+        try {
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                arr_res.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        ArrayList<String[]> arr_strlist_res = new ArrayList<>();
+//        for(String s: arr_res){
+//            int start = 0;
+//            int index = 0;
+//            String[] eachline = new String[8];
+//            for(int i = 0; i < s.length(); i++){
+//                if(s.charAt(i) == ','){
+//                    String now = s.substring(start, i);
+//                    eachline[index++] = now;
+//                    start = i + 1;
+//                }
+//            }
+//        }
+        
+        return arr_res;
+    }

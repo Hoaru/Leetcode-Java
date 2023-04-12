@@ -1,0 +1,62 @@
+/*
+* Given a collection of distinct numbers, return all possible combinations.
+For example,
+[2, 6, 8] have the following permutations:
+[], [2], [6], [8], [2, 6], [2, 8], [6, 8], [2, 6, 8].
+*/
+
+import java.util.*;
+
+public class Main {
+    public static List<List<Integer>> combine(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());
+        ArrayList<Integer> newCur = new ArrayList<>();
+        helper(nums, newCur, res, 0);
+        return res;
+    }
+    public static void helper(int[] num, ArrayList<Integer> cur, List<List<Integer>> res, int index){
+        if(index == num.length)
+            return;
+        else{
+            ArrayList<Integer> newCur1 = new ArrayList<>(cur);
+            newCur1.add(num[index]);
+            res.add(newCur1);
+            helper(num, newCur1, res, index + 1);
+            ArrayList<Integer> newCur2 = new ArrayList<>(cur);
+            helper(num, newCur2, res, index + 1);
+            return;
+        }
+    }
+
+//    public static List<List<Integer>> combine(int[] nums) {
+//        List<List<Integer>> res = new ArrayList<>();
+//        res.add(new ArrayList<>());
+//        ArrayList<Integer> newCur = new ArrayList<>();
+//        helper(nums, newCur, res, 0);
+//        return res;
+//    }
+//    public static void helper(int[] num, ArrayList<Integer> cur, List<List<Integer>> res, int index){
+//        if(index == num.length)
+//            return;
+//        else{
+//            for(int i = index; i < num.length; i++){
+//                ArrayList<Integer> newCur = new ArrayList<>(cur);
+//                newCur.add(num[i]);
+//                res.add(newCur);
+//                helper(num, newCur, res, i + 1);
+//            }
+//            return;
+//        }
+//    }
+
+
+
+    public static void main(String[] args)
+    {
+        int[] nums = {2,6,8};
+        System.out.println(combine(nums));
+        System.exit(0);
+        //System.out.println();
+    }
+}

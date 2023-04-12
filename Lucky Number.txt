@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class Main {
+
+    public static void helper(String num, int target, String temp,
+                              int index, long cur, long pre, List<String> res){
+        if(index == num.length()){
+            if(cur == target)
+                res.add(temp);
+            return;
+        }
+        else{
+            for(int i = index; i < num.length(); i++){
+                if(num.charAt(index) == '0' && i != index) break;
+                else{
+                    String m = num.substring(index, i + 1);
+                    long n = Long.valueOf(m);
+                    if(index == 0)
+                        helper(num, target, temp + m, i + 1, n, n, res);
+                    else{
+                        helper(num, target, temp + "+" + m, i + 1, cur + n, n , res);
+                        helper(num, target, temp + "-" + m, i + 1, cur - n, -n, res);
+                        helper(num, target, temp + "*" + m, i + 1, cur - pre + pre * n, pre * n, res);
+                        if(n != 0 && pre % n == 0)
+                            helper(num, target, temp + "/" + m, i + 1, cur - pre + pre / n, pre / n, res);
+                    }
+                }
+            }
+            return;
+        }
+    }
+    
+    public static List<String> luckyNumbers(String num, int target){
+        List<String> res = new ArrayList<>();
+        helper(num, target, "",0,0,0,res);
+        return res;
+    }
+
+    public static void main(String[] args)
+    {
+        System.out.println((luckyNumbers("7765332111", 888)).size());
+        System.out.println(luckyNumbers("7765332111", 888));
+        System.exit(0);
+        //System.out.println();
+    }
+}
