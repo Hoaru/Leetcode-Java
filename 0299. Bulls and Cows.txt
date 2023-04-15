@@ -1,0 +1,31 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        HashMap<Character, Integer> mapS = new HashMap<>();
+        HashMap<Character, Integer> mapG = new HashMap<>();
+        int len = secret.length();
+        int bulls = 0, cows = 0;
+        for(int i = 0; i < len; i++) {
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+            mapS.put(s, mapS.getOrDefault(s, 0) + 1);
+            mapG.put(g, mapG.getOrDefault(g, 0) + 1);
+            if(g == s) {
+                bulls++;
+                mapS.put(s, mapS.get(s) - 1);
+                mapG.put(g, mapG.get(g) - 1);
+            }
+        }
+        int valS, valG;
+        for(char s: mapS.keySet()) {
+            valS = mapS.get(s);
+            valG = mapG.getOrDefault(s, 0);
+            cows += Math.min(valS, valG);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(bulls);
+        sb.append('A');
+        sb.append(cows);
+        sb.append('B');
+        return sb.toString();
+    }
+}

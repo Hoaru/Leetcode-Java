@@ -1,0 +1,72 @@
+class Solution {
+    public static ArrayList<String> sortHelper(ArrayList<String> arr) {
+        Collections.sort(arr, new Comparator<String>(){
+            @Override
+            public int compare(String a, String b) {
+                int i = 0;
+                while(true) {
+                    i++;
+                    if(a.charAt(i) == ' ') {
+                        break;
+                    }
+                }
+                String aKey = a.substring(0, i);
+                String a1 = a.substring(i + 1, a.length());
+                i = 0;
+                while(true) {
+                    i++;
+                    if(b.charAt(i) == ' ') {
+                        break;
+                    }
+                }
+                String bKey = b.substring(0, i);
+                String b1 = b.substring(i + 1, b.length());
+                int diff = a1.compareTo(b1);
+                if(diff != 0) {
+                    return diff;
+                }
+                else {
+                    return aKey.compareTo(bKey);
+                }
+            }
+        });
+        return arr;
+    }
+
+    public static String[] reorderLogFiles(String[] logs) {
+        String[] res = new String[logs.length];
+        ArrayList<String> letters = new ArrayList<>();
+        ArrayList<String> digits = new ArrayList<>();
+        for(String s: logs) {
+            boolean flag = false;
+            for(int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if(c == ' ') {
+                    flag = true;
+                }
+                else {
+                    if(flag) {
+                        //判断是字母还是数字
+                        if(Character.isLetter(c)) {
+                            letters.add(s);
+                        }
+                        else {
+                            digits.add(s);
+                        }
+                        break;
+                    }
+                }
+
+            }
+        }
+        letters = sortHelper(letters);
+        int i = 0;
+        for(; i < letters.size(); i++) {
+            res[i] = letters.get(i);
+        }
+        for(int j = 0; j < digits.size(); j++) {
+            res[i + j] = digits.get(j);
+        }
+        return res;
+    }
+}
