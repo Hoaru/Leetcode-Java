@@ -8,22 +8,25 @@ class Employee {
 */
 
 class Solution {
-    public static Employee getEmployee(List<Employee> employees, int id){
-        for(Employee i : employees){
-            if( i.id == id) return i;
+    
+    public int helper(HashMap<Integer, Employee> map, int id) {
+        Employee e = map.get(id);
+        int res = e.importance;
+        for(int i: e.subordinates) {
+            res += helper(map, i);
         }
-        Employee x = new Employee(-1, 0, new ArrayList<>());
-        return x;
+        return res;
     }
 
-    public static int getImportance(List<Employee> employees, int id) {
-        Employee staff = getEmployee(employees, id);
-        int imp = staff.importance;
-        if(staff.subordinates.size() == 0) return imp;
-        else{
-            for(int i : staff.subordinates)
-                imp += getImportance(employees, i);
-            return imp;
+    public int getImportance(List<Employee> employees, int id) {
+        HashMap<Integer, Employee> map = new HashMap<>();
+        for(Employee e: employees) {
+            map.put(e.id, e);
         }
+        if(!map.containsKey(id)) {
+            return -1;
+        }
+        return helper(map, id);
     }
+    
 }
