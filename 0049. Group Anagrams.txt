@@ -3,15 +3,17 @@ class Solution {
         List<List<String>> res = new ArrayList<>();
         HashMap<String, List> map = new HashMap<>();
         for(String s : strs){
-            // List<Character> clist = s.toCharArray();
             char[] clist = s.toCharArray();
             Arrays.sort(clist);
-            String alphaOrder = new String(clist);
-            if(!map.containsKey(alphaOrder)){
-                map.put(alphaOrder, new ArrayList<String>());
+            String ns = new String(clist);
+            if(!map.containsKey(ns)){
+                map.put(ns, new ArrayList<String>());
             }
-            map.get(alphaOrder).add(s);
+            map.get(ns).add(s);
         }
         return new ArrayList(map.values());
+        // List<List<String>> res = new ArrayList<>();
+        // res.addAll(map.values());
+        // return res;
     }
 }
