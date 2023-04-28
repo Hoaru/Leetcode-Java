@@ -1,38 +1,92 @@
 class Solution {
+    // public static List<List<Integer>> fourSum(int[] nums, int target) {
+    //     List<List<Integer>> res = new ArrayList<>();
+    //     int left;
+    //     int right;
+    //     int longIntMax = Integer.MAX_VALUE;
+    //     int longIntMin = Integer.MIN_VALUE;
+    //     Arrays.sort(nums);
+    //     for(int i = 0; i < nums.length - 3; i++){
+    //         if(i > 0 && nums[i] == nums[i - 1]) continue;
+    //         for(int j = i + 1; j < nums.length - 2; j++){
+    //             if(j > i + 1 && nums[j] == nums[j - 1]) continue;
+    //             left = j + 1;
+    //             right = nums.length - 1;
+    //             while(left < right){
+    //                 long sumLong = (long)nums[i] + (long)nums[j] + (long)nums[left] + (long)nums[right];
+    //                 if(sumLong > longIntMax){
+    //                     right --;
+    //                     continue;
+    //                 }
+    //                 if(sumLong < longIntMin){
+    //                     left ++;
+    //                     continue;
+    //                 }
+    //                 int sum = (int)sumLong;
+    //                 if(sum > target) right--;
+    //                 else if(sum < target) left++;
+    //                 else{
+    //                     res.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+    //                     while(left < right && nums[left] == nums[left + 1]) left++;
+    //                     while(left < right && nums[right] == nums[right - 1]) right--;
+    //                     left ++;
+    //                     right --;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return res;
+    // }
+
     public static List<List<Integer>> fourSum(int[] nums, int target) {
+        int len = nums.length;
         List<List<Integer>> res = new ArrayList<>();
-        int left;
-        int right;
-        int longIntMax = Integer.MAX_VALUE;
-        int longIntMin = Integer.MIN_VALUE;
         Arrays.sort(nums);
-        for(int i = 0; i < nums.length - 3; i++){
-            if(i > 0 && nums[i] == nums[i - 1]) continue;
-            for(int j = i + 1; j < nums.length - 2; j++){
-                if(j > i + 1 && nums[j] == nums[j - 1]) continue;
-                left = j + 1;
-                right = nums.length - 1;
-                while(left < right){
-                    long sumLong = (long)nums[i] + (long)nums[j] + (long)nums[left] + (long)nums[right];
-                    if(sumLong > longIntMax){
-                        right --;
-                        continue;
+        for(int i = 0; i <= len - 4; i++) {
+            for(int j = i + 1; j <= len - 3; j++) {
+                int l = j + 1;
+                int r = len - 1;
+                while(l < r) {
+                    long sumLong = (long)nums[i] + (long)nums[j] + (long)nums[l] + (long)nums[r];
+                    if(sumLong > Integer.MAX_VALUE) {
+                        r--;
                     }
-                    if(sumLong < longIntMin){
-                        left ++;
-                        continue;
+                    else if(sumLong < Integer.MIN_VALUE) {
+                        l++;
                     }
-                    int sum = (int)sumLong;
-                    if(sum > target) right--;
-                    else if(sum < target) left++;
-                    else{
-                        res.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
-                        while(left < right && nums[left] == nums[left + 1]) left++;
-                        while(left < right && nums[right] == nums[right - 1]) right--;
-                        left ++;
-                        right --;
+                    else {
+                        int sum = (int)sumLong;
+                        if(sum < target) {
+                            while(l + 1 < r && nums[l + 1] == nums[l]) {
+                                l++;
+                            }
+                            l++;
+                        }
+                        else if(sum > target) {
+                            while(r - 1 > l && nums[r - 1] == nums[r]) {
+                                r--;
+                            }
+                            r--;
+                        }
+                        else {
+                            res.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                            while(l + 1 < r && nums[l + 1] == nums[l]) {
+                                l++;
+                            }
+                            l++;
+                            while(r - 1 > l && nums[r - 1] == nums[r]) {
+                                r--;
+                            }
+                            r--;
+                        }
                     }
                 }
+                while(j + 1 <= len - 3 && nums[j + 1] == nums[j]) {
+                    j++;
+                }
+            }
+            while(i + 1 <= len - 4 && nums[i + 1] == nums[i]) {
+                i++;
             }
         }
         return res;
