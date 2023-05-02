@@ -1,0 +1,38 @@
+class Solution {
+
+    public int max = 0;
+
+    public int helper(TreeNode root) {
+        int leftMax, rightMax;
+        if(root == null) {
+            return -1;
+        }
+        else if(root.left == null && root.right == null) {
+            return 0;
+        }
+        else if(root.left == null && root.right != null) {
+            rightMax = 1 + helper(root.right);
+            max = Math.max(max, rightMax);
+            return rightMax;
+        }
+        else if(root.left != null && root.right == null) {
+            leftMax = 1 + helper(root.left);
+            max = Math.max(max, leftMax);
+            return leftMax;
+            
+        }
+        else {
+            leftMax = 1 + helper(root.left);
+            rightMax = 1 + helper(root.right);
+            max = Math.max(max, leftMax + rightMax);
+            return Math.max(leftMax, rightMax);
+        }
+    }
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        if(root.left == null && root.right == null) return max;
+        int leftMax = 1 + helper(root.left);
+        int rightMax = 1 + helper(root.right);
+        return Math.max(max, leftMax + rightMax);
+    }
+}
