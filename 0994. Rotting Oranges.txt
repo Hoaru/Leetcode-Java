@@ -1,0 +1,62 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int res = 0;
+        int good = 0;
+        Queue<int[]> qu = new LinkedList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 2) {
+                    qu.add(new int[]{i, j});
+                }
+                else if(grid[i][j] == 1) {
+                    good++;
+                }
+            }
+        }
+
+        while(!qu.isEmpty()) {
+            Queue<int[]> newQu = new LinkedList<>();
+            boolean flag = false;
+            while(!qu.isEmpty()) {
+                int[] curr = qu.poll();
+                if(curr[0] > 0) {
+                    if(grid[curr[0] - 1][curr[1]] == 1) {
+                        flag = true;
+                        grid[curr[0] - 1][curr[1]] = 2;
+                        good--;
+                        newQu.add(new int[]{curr[0] - 1, curr[1]});
+                    }
+                }
+                if(curr[0] < grid.length - 1) {
+                    if(grid[curr[0] + 1][curr[1]] == 1) {
+                        flag = true;
+                        grid[curr[0] + 1][curr[1]] = 2;
+                        good--;
+                        newQu.add(new int[]{curr[0] + 1, curr[1]});
+                    }
+                }
+                if(curr[1] > 0) {
+                    if(grid[curr[0]][curr[1] - 1] == 1) {
+                        flag = true;
+                        grid[curr[0]][curr[1] - 1] = 2;
+                        good--;
+                        newQu.add(new int[]{curr[0], curr[1] - 1});
+                    }
+                }
+                if(curr[1] < grid[0].length - 1) {
+                    if(grid[curr[0]][curr[1] + 1] == 1) {
+                        flag = true;
+                        grid[curr[0]][curr[1] + 1] = 2;
+                        good--;
+                        newQu.add(new int[]{curr[0], curr[1] + 1});
+                    }
+                }   
+            }
+            qu = newQu; 
+            if(flag) {
+                res++;
+            }
+        }
+        return good == 0 ? res : -1;
+    }
+}
