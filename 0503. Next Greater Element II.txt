@@ -1,0 +1,29 @@
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int len = nums.length;
+        int[] res = new int[len];
+        int[] res2 = new int[2 * len];
+        int[] nums2 = new int[2 * len];
+        Arrays.fill(res2, -1);
+        for(int i = 0; i < len; i++) {
+            nums2[i] = nums[i];
+            nums2[i + len] = nums[i];
+        }
+        Deque<Integer> qu = new LinkedList<>();
+        for(int i = 0; i < nums2.length; i++) {
+            while(!qu.isEmpty() && nums2[i] > nums2[qu.peekLast()]) {
+                int top = qu.pollLast();
+                res2[top] = nums2[i];
+            }
+            qu.addLast(i);
+        }
+        while(!qu.isEmpty()) {
+            int top = qu.pollLast();
+            res2[top] = -1;
+        }
+        for(int i = 0; i < len; i++) {
+            res[i] = res2[i];
+        }
+        return res;
+    }
+}
