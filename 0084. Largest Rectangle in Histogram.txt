@@ -1,0 +1,43 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        if(n == 1) {
+            return heights[0];
+        }
+        int[] res = new int[n];
+        int[] leftFirstMin = new int[n];
+        int[] rightFirstMin = new int[n];
+        Deque<Integer> quLeft = new LinkedList<>();
+        Deque<Integer> quRight = new LinkedList<>();
+        for(int i = 0; i < n; i++) {
+            while(!quRight.isEmpty() && heights[i] < heights[quRight.peekLast()]) {
+                int top = quRight.pollLast();
+                rightFirstMin[top] = i - 1;
+            }
+            quRight.addLast(i);
+        }
+        while(!quRight.isEmpty()) {
+            int top = quRight.pollLast();
+            rightFirstMin[top] = n - 1;
+        }
+        for(int i = n - 1; i > -1; i--) {
+            while(!quLeft.isEmpty() && heights[i] < heights[quLeft.peekLast()]) {
+                int top = quLeft.pollLast();
+                leftFirstMin[top] = i + 1;
+            }
+            quLeft.addLast(i);
+        }
+        while(!quLeft.isEmpty()) {
+            int top = quLeft.pollLast();
+            leftFirstMin[top] = 0;
+        }
+        int max = 0;
+        for(int i = 0; i < n; i++) {
+            int r = rightFirstMin[i];
+            int l = leftFirstMin[i];
+            res[i] = (r - l + 1) * heights[i];
+            max = Math.max(res[i], max);
+        }
+        return max;
+    }
+}
