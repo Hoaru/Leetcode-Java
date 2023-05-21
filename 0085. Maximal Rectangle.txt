@@ -1,0 +1,57 @@
+class Solution {
+
+    public int maximalRectangle(char[][] matrix) {
+        int max = 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] sum = new int[m][n];
+        for(int j = 0; j < n; j++) {
+            sum[0][j] = matrix[0][j] - '0';
+        }
+        if(m > 1) {
+            for(int r = 1; r < m; r++) {
+                for(int c = 0; c < n; c++) {
+                    if(matrix[r][c] == '1') {
+                        sum[r][c] = sum[r - 1][c] + 1;
+                    }
+                    else {
+                        sum[r][c] = 0;
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < m; i++) {
+            int[] leftFirstMin = new int[n];
+            int[] rightFirstMin = new int[n];
+            Deque<Integer> qu = new LinkedList<>();
+            for(int j = 0; j < n; j++) {
+                while(!qu.isEmpty() && sum[i][j] < sum[i][qu.peekLast()]) {
+                    int top = qu.pollLast();
+                    rightFirstMin[top] = j - 1;
+                }
+                qu.addLast(j);
+            }
+            while(!qu.isEmpty()) {
+                int top = qu.pollLast();
+                rightFirstMin[top] = n - 1;
+            }
+            for(int j = n - 1; j > -1; j--) {
+                while(!qu.isEmpty() && sum[i][j] < sum[i][qu.peekLast()]) {
+                    int top = qu.pollLast();
+                    leftFirstMin[top] = j + 1;
+                }
+                qu.addLast(j);
+            }
+            while(!qu.isEmpty()) {
+                int top = qu.pollLast();
+                leftFirstMin[top] = 0;
+            }
+            for(int j = 0; j < n; j++) {
+                int l = leftFirstMin[j];
+                int r = rightFirstMin[j];
+                max = Math.max(max, sum[i][j] * (r - l + 1));
+            }
+        }
+        return max;
+    }
+}
