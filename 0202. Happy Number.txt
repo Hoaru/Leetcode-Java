@@ -1,0 +1,29 @@
+class Solution {
+    public int helper(int e) {
+        int res = 0;
+        while(e != 0) {
+            int curr = e % 10;
+            e /= 10;
+            res += Math.pow(curr, 2);
+        }
+        return res == 1 ? -1 : res;
+    }
+    public boolean isHappy(int n) {
+        HashSet<Integer> set = new HashSet<>();
+        set.add(n);
+
+        while(true) {
+            n = helper(n);
+            if(n == -1) {
+                return true;
+            }
+            else {
+                if(set.contains(n)) {
+                    return false;
+                }
+                set.add(n);
+            }
+        }
+        
+    }
+}
