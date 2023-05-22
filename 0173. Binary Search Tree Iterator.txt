@@ -1,0 +1,33 @@
+class BSTIterator {
+
+    public ArrayList<Integer> nums;
+
+    public int index = 0;
+
+    public void inOrder(TreeNode root, ArrayList<Integer> nums) {
+        if(root == null) return;
+        else {
+            inOrder(root.left, nums);
+            nums.add(root.val);
+            inOrder(root.right, nums);
+        }
+    }
+
+    public BSTIterator(TreeNode root) {
+        nums = new ArrayList<>();
+        inOrder(root, nums);
+    }
+    
+    public int next() {
+        if(nums.isEmpty()) {
+            return -1;
+        }
+        else {
+            return nums.get(index++);
+        }
+    }
+    
+    public boolean hasNext() {
+        return index != nums.size();
+    }
+}
