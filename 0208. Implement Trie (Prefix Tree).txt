@@ -1,45 +1,51 @@
-class TrieNode{
-        boolean end;
-        HashMap<Character, TrieNode> hash = new HashMap<>();
+class TrieNode {
+    HashMap<Character, TrieNode> map;
+
+    boolean end;
+
+    public TrieNode() {
+        map = new HashMap<>();
+        end = false;
+    }
+}
+
+class Trie {
+    public TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String word) {
+        TrieNode curr = root;
+        for (char c: word.toCharArray()) {
+            if (!curr.map.containsKey(c)) {
+                curr.map.put(c, new TrieNode());
+            }
+            curr = curr.map.get(c);
+        }
+        curr.end = true;
     }
 
-    class Trie {
-        public TrieNode root;
-
-        public Trie() {
-             root = new TrieNode();
-        }
-
-        public void insert(String word) {
-            TrieNode curr = root;
-            for(char c: word.toCharArray()){
-                if(!curr.hash.containsKey(c)){
-                    curr.hash.put(c, new TrieNode());
-                }
-                curr = curr.hash.get(c);
+    public boolean search(String word) {
+        TrieNode curr = root;
+        for (char c: word.toCharArray()) {
+            if (!curr.map.containsKey(c)) {
+                return false;
             }
-            curr.end = true;
+            curr = curr.map.get(c);
         }
-
-        public TrieNode getLast(String word){
-            TrieNode curr = root;
-            for(char c : word.toCharArray()){
-                if(!curr.hash.containsKey(c))
-                    return null;
-                curr = curr.hash.get(c);
-            }
-            return curr;
-        }
-
-        public boolean search(String word) {
-            TrieNode res = getLast(word);
-            if(res == null) return false;
-            else return res.end;
-        }
-
-        public boolean startsWith(String prefix) {
-            TrieNode res = getLast(prefix);
-            if(res == null) return false;
-            else return true;
-        }
+        return curr.end;
     }
+
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        for (char c: prefix.toCharArray()) {
+            if (!curr.map.containsKey(c)) {
+                return false;
+            }
+            curr = curr.map.get(c);
+        }
+        return true;
+    }
+}
