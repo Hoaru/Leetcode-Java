@@ -1,0 +1,74 @@
+class TrieNode {
+    HashMap<Character, TrieNode> map;
+    boolean end;
+    public TrieNode() {
+        map = new HashMap<>();
+        end = false;
+    }
+}
+
+class WordDictionary {
+
+    TrieNode root;
+
+    public WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    public void addWord(String word) {
+        TrieNode curr = root;
+        for(char c: word.toCharArray()) {
+            if(!curr.map.containsKey(c)) {
+                curr.map.put(c, new TrieNode());
+            }
+            curr = curr.map.get(c);
+        }
+        curr.end = true;
+    }
+    
+    public boolean dotHelper(TrieNode curr, String word, int i) {
+        char c = word.charAt(i);
+        if(i == word.length() - 1) {
+            if(c == '.') {
+                for(char uc: curr.map.keySet()) {
+                    if(curr.map.get(uc).end == true) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else if(!curr.map.containsKey(c)) {
+                return false;
+            }
+            else {
+                return curr.map.get(c).end;
+            }
+        }
+        else if(c == '.') {
+            for(char uc: curr.map.keySet()) {
+                boolean res = dotHelper(curr.map.get(uc), word, i + 1);
+                if(res) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else {
+            if(!curr.map.containsKey(c)) {
+                return false;
+            }
+            return dotHelper(curr.map.get(c), word, i + 1);
+        }
+    }
+    
+    public boolean search(String word) {
+        return dotHelper(root, word, 0);
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
