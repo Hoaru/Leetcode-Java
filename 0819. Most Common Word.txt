@@ -1,0 +1,39 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        paragraph = (paragraph + ".").toLowerCase();
+        StringBuilder sb = new StringBuilder();
+        Queue<Character> qu = new LinkedList<>();
+        HashMap<String, Integer> map = new HashMap<>();
+        for(char c: paragraph.toCharArray()) {
+            int diff = c - 'a';
+            if(0 <= diff && diff <= 25) {
+                qu.add(c);
+            }
+            else {
+                if(qu.isEmpty()) {
+                    continue;
+                }
+                else {
+                    while(!qu.isEmpty()) {
+                        sb.append(qu.poll());
+                    }
+                    String curr = sb.toString();
+                    sb = new StringBuilder();
+                    map.put(curr, map.getOrDefault(curr, 0) + 1);
+                }
+            }
+        }
+        for(String s: banned) {
+            map.remove(s);
+        }
+        int max = 0;
+        String res = "";
+        for(String s: map.keySet()) {
+            if(map.get(s) > max) {
+                max = map.get(s);
+                res = s;
+            }
+        }
+        return res;
+    }
+}
