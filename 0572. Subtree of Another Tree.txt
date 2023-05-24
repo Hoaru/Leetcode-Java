@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean helper(TreeNode t1, TreeNode t2) {
+        if(t1 == null && t2 == null) {
+            return true;
+        }
+        else if((t1 != null && t2 == null) || (t1 == null && t2 != null)) {
+            return false;
+        }
+        else {
+            return helper(t1.left, t2.left) && (t1.val == t2.val) && helper(t1.right, t2.right);
+        }
+    }
+    public void inOrder(TreeNode root, Queue<TreeNode> qu, int val) {
+        if(root == null) {
+            return;
+        }
+        inOrder(root.left, qu, val);
+        if(root.val == val) {
+            qu.add(root);
+        }
+        inOrder(root.right, qu, val);
+    }
+    
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        Queue<TreeNode> qu = new LinkedList<>();
+        inOrder(root, qu, subRoot.val);
+        while(!qu.isEmpty()) {
+            TreeNode top = qu.poll();
+            if(helper(top, subRoot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
