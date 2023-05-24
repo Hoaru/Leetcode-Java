@@ -1,63 +1,157 @@
-import java.util.*;
-public class Main {
+// class TrieNode {
+//     HashMap<Character, TrieNode> map;
+//     boolean end;
+//     public TrieNode() {
+//         map = new HashMap<>();
+//         end = false;
+//     }
+// }
 
-    public static boolean findString(String[] words, String s){
-        for(int i = words.length - 1; i > -1; i--)
-            if(words[i].equals(s)) return true;
-        return false;
+// class Solution {
+//     public static boolean exist(TrieNode root, String s) {
+//         TrieNode curr = root;
+//         for(char c: s.toCharArray()) {
+//             if(!curr.map.containsKey(c)) {
+//                 return false;
+//             }
+//             curr = curr.map.get(c);
+//         }
+//         if(curr.end) {
+//             return true;
+//         }
+//         else {
+//             return false;
+//         }
+//     }
+//     public static boolean exist(TrieNode root, String s, int start, int end) {
+//         if(end - start + 1 > s.length() || start < 0 || end > s.length() - 1) {
+//             return false;
+//         }
+//         TrieNode curr = root;
+//         for(int i = start; i <= end; i++) {
+//             char c = s.charAt(i);
+//             if(!curr.map.containsKey(c)) {
+//                 return false;
+//             }
+//             curr = curr.map.get(c);
+//         }
+//         if(curr.end) {
+//             return true;
+//         }
+//         else {
+//             return false;
+//         }
+//     }
+
+//     public static void buildTrieTree(TrieNode root, String s) {
+//         TrieNode curr = root;
+//         for(char c: s.toCharArray()) {
+//             if(!curr.map.containsKey(c)) {
+//                 curr.map.put(c, new TrieNode());
+//             }
+//             curr = curr.map.get(c);
+//         }
+//         curr.end = true;
+//     }
+
+//     public static boolean helper(TrieNode root, String s, int start, ArrayList<Integer> lenList, boolean original) {
+//         if(start == s.length()) {
+//             return true;
+//         }
+//         for(int len: lenList) {
+//             if(len == s.length() && original) {
+//                 continue;
+//             }
+//             else if(len > s.length()) {
+//                 return false;
+//             }
+//             else {
+//                 if(exist(root, s, start, start + len - 1)) {
+//                     boolean res = helper(root, s, start + len, lenList, false);
+//                     if(res == true) {
+//                         return true;
+//                     }
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+
+//     public static List<String> findAllConcatenatedWordsInADict(String[] words) {
+//         List<String> res = new ArrayList<>();
+//         TrieNode root = new TrieNode();
+//         HashMap<Integer, Boolean> map = new HashMap<>();
+//         for(String s: words) {
+//             buildTrieTree(root, s);
+//             map.put(s.length(), true);
+//         }
+
+//         ArrayList<Integer> lenList = new ArrayList<>();
+//         lenList.addAll(map.keySet());
+//         Collections.sort(lenList);
+
+//         for(String s: words) {
+//             if(helper(root, s, 0, lenList, true)) {
+//                 res.add(s);
+//             }
+//         }
+//         return res;
+//     }
+// }
+
+class Solution {
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        ArrayList<String> list= new ArrayList<String>();
+        Trie trie = new Trie();
+        for(String x:words){
+            insert(x,trie);
+        }
+        for(String x:words){
+            if(solve(x,trie,0,1,new Boolean[x.length()],0))
+                list.add(x);
+        }
+        return list;
     }
 
-    public static boolean helper(String[] words, String front, String end, int min, int sum) {
-        if(findString(words, front) == true) {
-            front ="";
-            sum += 1;
-        }
-        if(end.length() == 0){
-            if(sum >= 2 && front == "") return true;
-            else return false;
-        }
-        else if(front != "" && findString(words, front) == false) return false;
-        else if(end.length() < min) return false;
 
-        else{
-            for(int i = min; i <= end.length(); i++) {
-                String newFront = end.substring(0, i);
-                String newEnd = end.substring(i);
-                boolean temp = helper(words, newFront, newEnd, min, sum);
-                if(temp == true) return true;
+    private boolean solve(String s,Trie trie,int i,int j,Boolean[] memo,int c){
+        if(i==s.length()){
+            return c>1; // more than 1 string
+        }
+        if(memo[i]!=null){
+            return memo[i];
+        }
+        Trie dict = trie;
+        for(int k=i;k<s.length();k++){
+            dict = dict.a[s.charAt(k)-'a'];
+            if(dict==null){
+                return memo[i] = false;
             }
-            return false;
-        }
-    }
-
-
-    public static List<String> findAllConcatenatedWordsInADict(String[] words) {
-        for(int i = 0; i < words.length; i++) {
-            for(int j = i + 1; j < words.length; j++){
-                if(words[j].length() > words[i].length()){
-                    String t = words[i];
-                    words[i] = words[j];
-                    words[j] = t;
-                }
+            if(dict.stop){
+                if(solve(s,trie,k+1,k+2,memo,c+1))
+                    return true;
             }
         }
+        return memo[i] = false;
+    }
 
-        int min = words[words.length - 1].length();
-        ArrayList<String> res = new ArrayList<>();
-        for(int i = 0; i < words.length; i++){
-            boolean cur = helper(words, "", words[i], min, 0);
-            if(cur == true) res.add(words[i]);
+    private void insert(String s,Trie trie){
+        for(char ch:s.toCharArray()){
+            if(trie.a[ch-'a']==null) {
+                trie.a[ch-'a'] = new Trie();
+            }
+            trie=trie.a[ch-'a'];
         }
-        return res;
+        trie.stop=true;
     }
+}
 
+class Trie{
+    Trie[] a;
+    boolean stop;
 
-
-    public static void main(String[] args)
-    {
-        String[] words = new String[]{"abc","a","b","ab"};
-        System.out.print(findAllConcatenatedWordsInADict(words));
-        System.exit(0);
+    public Trie(){
+        a=new Trie[26];
+        stop=false;
     }
-
 }
