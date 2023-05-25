@@ -1,7 +1,7 @@
 class MedianFinder {
     private PriorityQueue<Integer> pqMin = new PriorityQueue<>();
     private PriorityQueue<Integer> pqMax = new PriorityQueue<>(Collections.reverseOrder());
-    boolean even = true;
+    private boolean even = true;
 
     public double findMedian() {
         if(even) {
