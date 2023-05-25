@@ -1,0 +1,33 @@
+class MedianFinder {
+    private PriorityQueue<Integer> pqMin = new PriorityQueue<>();
+    private PriorityQueue<Integer> pqMax = new PriorityQueue<>(Collections.reverseOrder());
+    boolean even = true;
+
+    public double findMedian() {
+        if(even) {
+            return (pqMax.peek() + pqMin.peek()) / 2.0;
+        }
+        else {
+            return pqMax.peek();
+        }
+    }
+
+    public void addNum(int num) {
+        if(even) {
+            pqMin.add(num);
+            pqMax.add(pqMin.poll());
+        }
+        else {
+            pqMax.add(num);
+            pqMin.add(pqMax.poll());
+        }
+        even = !even;
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
