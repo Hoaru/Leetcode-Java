@@ -1,0 +1,48 @@
+class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String> res = new ArrayList<>();
+        dfs(num, target, "", 0, 0, 0, res);
+        return res;
+    }
+    
+    // num: 输入的电话号码
+    // target: 幸运数字
+    // temp: 从左至右依次放入运算符，当前表达式字符串值
+    // pos: 当前将要在电话号码中插入运算符，pos 是指将在哪个字符后插入
+    // current: 当前表达式的运算后的值
+    // last: 记录最近一次加减法的增量，相当于缓存高优先级的运算
+    // result: 结果列表
+    void dfs(String num, int target, String temp, int pos, long current, long last, List<String>
+            result) {
+        if (pos == num.length()) {
+            if (current == target) {
+                result.add(temp);
+            }
+            return;
+        }
+        for (int i = pos; i < num.length(); i++) {
+            if (num.charAt(pos) == '0' && i != pos) {
+                break;
+            }
+            String m = num.substring(pos, i + 1);
+            long n = Long.parseLong(m);
+            if (pos == 0) {
+                // 0 + 第一个数
+                dfs(num, target, temp + m, i + 1, n, n, result);
+            } else {
+                //加
+                dfs(num, target, temp + "+" + m, i + 1, current + n, n, result);
+                //减
+                dfs(num, target, temp + "-" + m, i + 1, current - n, -n, result);
+                //乘
+                dfs(num, target, temp + "*" + m, i + 1, current - last + last * n, last * n, result);
+                ////除
+                // if (n != 0 && last % n == 0) {
+                //     dfs(num, target, temp + "/" + m, i + 1, current - last + last / n, last / n,
+                //             result);
+                // }
+            }
+        }
+    }
+    
+}
