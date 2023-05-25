@@ -1,0 +1,24 @@
+class Solution {
+    public boolean hasGroupsSizeX(int[] deck) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i: deck) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+        ArrayList<Integer> res = new ArrayList<>(map.values());
+        Collections.sort(res);
+        int end = res.get(0);
+        for(int i = 2; i <= end; i++) {
+            boolean flag = true;
+            for(int e : res) {
+                if(e % i != 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
