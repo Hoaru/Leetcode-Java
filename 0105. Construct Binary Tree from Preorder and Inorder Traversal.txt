@@ -1,25 +1,45 @@
-class Solution {
-    
-    public TreeNode buildTree(int[] pre, int [] in) {
-        HashMap<Integer, Integer> hash = new HashMap<>();
-        for(int i = 0; i < in.length; i++)
-            hash.put(in[i], i);
-        return helper(hash, in, pre, new int[]{0}, 0, in.length - 1);
-    }
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 
-    public TreeNode helper(HashMap<Integer, Integer> hash, int[] in, int[] pre, int[] pi, int is, int ie){
-        if(is > ie || pi[0] == in.length) return null;
-        else if(is == ie){
-            pi[0]++;
-            return new TreeNode(in[is]);
+class Solution {
+
+    private int pIndex = 0;
+    
+    public TreeNode helper(int[] pre, int[] in, HashMap<Integer, Integer> map, int iStart, int iEnd) {
+        if(iStart > iEnd) {
+            return null;
         }
-        else{
-            int rootVal = pre[pi[0]++];
+        else if (iStart == iEnd) {
+            return new TreeNode(pre[pIndex++]);
+        }
+        else {
+            int rootVal = pre[pIndex++];
             TreeNode root = new TreeNode(rootVal);
-            int pos = hash.get(rootVal);
-            root.left = helper(hash, in, pre, pi, is, pos - 1);
-            root.right = helper(hash, in, pre, pi, pos + 1, ie);
+            int iMid = map.get(rootVal);
+            root.left = helper(pre, in, map, iStart, iMid - 1);
+            root.right = helper(pre, in, map, iMid + 1, iEnd);
             return root;
         }
+    }
+    
+    public TreeNode buildTree(int[] pre, int[] in) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < in.length; i++) {
+            map.put(in[i], i);
+        }
+        return helper(pre, in, map, 0, in.length - 1);
     }
 }
