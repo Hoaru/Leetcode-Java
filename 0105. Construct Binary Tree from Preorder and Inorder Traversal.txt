@@ -19,7 +19,7 @@ class Solution {
     private int pIndex = 0;
     
     public TreeNode helper(int[] pre, int[] in, HashMap<Integer, Integer> map, int iStart, int iEnd) {
-        if(iStart > iEnd) {
+        if(pIndex > pre.length - 1 || iStart > iEnd) {
             return null;
         }
         else if (iStart == iEnd) {
