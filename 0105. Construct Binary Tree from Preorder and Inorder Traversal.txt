@@ -29,6 +29,7 @@ class Solution {
             int rootVal = pre[pIndex++];
             int iMid = map.get(rootVal);
             TreeNode root = new TreeNode(rootVal);
+            //由于使用 inOrder + preOrder(M-L-R)，M与L相邻，所以递归时，先建立左子树
             root.left = helper(pre, in, map, iStart, iMid - 1);
             root.right = helper(pre, in, map, iMid + 1, iEnd);
             return root;
