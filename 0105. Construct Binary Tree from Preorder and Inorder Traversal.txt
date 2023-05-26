@@ -27,8 +27,8 @@ class Solution {
         }
         else {
             int rootVal = pre[pIndex++];
-            TreeNode root = new TreeNode(rootVal);
             int iMid = map.get(rootVal);
+            TreeNode root = new TreeNode(rootVal);
             root.left = helper(pre, in, map, iStart, iMid - 1);
             root.right = helper(pre, in, map, iMid + 1, iEnd);
             return root;
