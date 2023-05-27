@@ -12,52 +12,43 @@ public class Codec {
     private int i = 0;
 
     public TreeNode deserializeHelper(int len, String[] arr){
-        if(i >= len || arr[i].equals("N")){
+        if(i == len || arr[i].equals("n")) {
             i++;
             return null;
-        } 
-        TreeNode root = new TreeNode(Integer.parseInt(arr[i]));
-        i++;
+        }
+        TreeNode root = new TreeNode(Integer.valueOf(arr[i++]));
         root.left = deserializeHelper(len, arr);
         root.right = deserializeHelper(len, arr);
         return root;
-        
     }
-    public void serializeHelper(TreeNode root,StringBuffer sb){
-        if(root==null) {
-            sb.append(',');
-            sb.append('N');
+
+    public void serializeHelper(TreeNode root, StringBuffer sb){
+        if(root == null) {
+            sb.append("n,");
             return;
         }
-        if(sb.length()==0) {
-            sb.append(Integer.toString(root.val));
-        }
-        else {
-            sb.append("," + Integer.toString(root.val));
-        }
+        sb.append(String.valueOf(root.val) + ",");
         serializeHelper(root.left, sb);
         serializeHelper(root.right, sb);
     }
 
-    // Encodes a tree to a single string.
+    // Encode a tree to a string.
     public String serialize(TreeNode root) {
         if(root == null) {
             return "";
         }
-        StringBuffer sb= new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         serializeHelper(root, sb);
-        String res = sb.toString();
-        return res;
+        return sb.toString();
     }
 
-    // Decodes a string to a tree.
-    public TreeNode deserialize(String data) {
-        if(data == "") {
+    // Decode a string to a tree.
+    public TreeNode deserialize(String s) {
+        if(s.equals("")) {
             return null;
         }
-        String[] arr = data.split(",");
-        TreeNode root = deserializeHelper(arr.length, arr);
-        return root;
+        String[] arr = s.split(",");
+        return deserializeHelper(arr.length, arr);
     }
 }
 
