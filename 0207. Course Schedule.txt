@@ -1,26 +1,68 @@
 class Solution {
-    public boolean canFinish(int numCourses, int[][] prerequisites){
-        int[] in_degree = new int[numCourses];
-        for(int[] i : prerequisites){
-            in_degree[i[0]]++;
+    // public boolean canFinish(int numCourses, int[][] prerequisites){
+    //     int sum = 0;
+    //     int[] inDegree = new int[numCourses];
+    //     for(int[] i: prerequisites) {
+    //         inDegree[i[0]]++;
+    //     }
+    //     Queue<Integer> qu = new LinkedList<>();
+    //     for(int i = 0; i < inDegree.length; i++) {
+    //         if(inDegree[i] == 0) {
+    //             qu.add(i);
+    //         }
+    //     }
+    //     while(!qu.isEmpty()) {
+    //         int pre = qu.poll();
+    //         sum++;
+    //         for(int[] i: prerequisites) {
+    //             if(i[1] == pre) {
+    //                 inDegree[i[0]]--;
+    //                 if(inDegree[i[0]] == 0) {
+    //                     qu.add(i[0]);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return sum == numCourses;
+    // }
+
+    public static boolean dfs(int i, ArrayList<Integer>[] arr, boolean[] visiting) {
+        //如果有环存在
+        if(visiting[i] == true) {
+            return false;
         }
-        Queue<Integer> qu = new LinkedList<>();
-        for(int i = 0; i < in_degree.length; i++){
-            if(in_degree[i] == 0)
-                qu.add(i);
+        else if(arr[i] == null) {
+            return true;
         }
-        ArrayList<Integer> res = new ArrayList<>();
-        while(!qu.isEmpty()){
-            int top = qu.poll();
-            res.add(top);
-            for(int[] i : prerequisites){
-                if(i[1] == top){
-                    in_degree[i[0]]--;
-                    if(in_degree[i[0]] == 0)
-                        qu.add(i[0]);
+        else {
+            visiting[i] = true;
+            for(int c: arr[i]) {
+                if(!dfs(c, arr, visiting)) {
+                    return false;
                 }
             }
+            visiting[i] = false;
+            arr[i] = null;
+            return true;
         }
-        return res.size() == numCourses ? true : false;
+    }
+
+    public static boolean canFinish(int n, int[][] prerequisites) {
+        boolean[] visiting = new boolean[n];
+        ArrayList<Integer>[] arr = new ArrayList[n];
+        for(int[] c : prerequisites) {
+            int now = c[0];
+            int pre = c[1];
+            if(arr[now] == null) {
+                arr[now] = new ArrayList<>();
+            }
+            arr[now].add(pre);
+        }
+        for(int i = 0; i < n; i++) {
+            if(!dfs(i, arr, visiting)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
