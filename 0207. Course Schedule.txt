@@ -26,18 +26,18 @@ class Solution {
     //     return sum == numCourses;
     // }
 
-    public static boolean dfs(int i, ArrayList<Integer>[] arr, boolean[] visiting) {
-        //如果有环存在
-        if(visiting[i] == true) {
-            return false;
-        }
-        else if(arr[i] == null) {
+    public boolean dfs(int i, boolean[] visiting, ArrayList<Integer>[] arr) {
+        if(arr[i] == null) {
             return true;
+        }
+        //出现闭环
+        else if(visiting[i] == true) {
+            return false;
         }
         else {
             visiting[i] = true;
-            for(int c: arr[i]) {
-                if(!dfs(c, arr, visiting)) {
+            for(int e: arr[i]) {
+                if(!dfs(e, visiting, arr)) {
                     return false;
                 }
             }
@@ -46,20 +46,19 @@ class Solution {
             return true;
         }
     }
-
-    public static boolean canFinish(int n, int[][] prerequisites) {
+    public boolean canFinish(int n, int[][] prerequisites) {
         boolean[] visiting = new boolean[n];
         ArrayList<Integer>[] arr = new ArrayList[n];
-        for(int[] c : prerequisites) {
-            int now = c[0];
-            int pre = c[1];
+        for(int[] e: prerequisites) {
+            int now = e[0];
+            int pre = e[1];
             if(arr[now] == null) {
                 arr[now] = new ArrayList<>();
             }
             arr[now].add(pre);
         }
         for(int i = 0; i < n; i++) {
-            if(!dfs(i, arr, visiting)) {
+            if(!dfs(i, visiting, arr)) {
                 return false;
             }
         }
