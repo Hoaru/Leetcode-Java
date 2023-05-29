@@ -1,32 +1,77 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
-        int in_degree[] = new int[numCourses];
-        for(int[] i : prerequisites){
-            in_degree[i[0]]++;
+    // public int[] findOrder(int numCourses, int[][] prerequisites) {
+    //     int in_degree[] = new int[numCourses];
+    //     for(int[] i : prerequisites){
+    //         in_degree[i[0]]++;
+    //     }
+    //     Queue<Integer> qu = new LinkedList<>();
+    //     for(int i = 0; i < numCourses; i++){
+    //         if(in_degree[i] == 0)
+    //             qu.add(i);
+    //     }
+    //     ArrayList<Integer> all = new ArrayList<>();
+    //     while(!qu.isEmpty()){
+    //         int top = qu.poll();
+    //         all.add(top);
+    //         for(int[] i : prerequisites){
+    //             if(i[1] == top){
+    //                 in_degree[i[0]]--;
+    //                 if(in_degree[i[0]] == 0)
+    //                     qu.add(i[0]);
+    //             }
+    //         }
+    //     }
+    //     if(all.size() != numCourses) return new int[0];
+    //     else{
+    //         int[] res = new int[numCourses];
+    //         int j = 0;
+    //         for(int i : all)
+    //             res[j++] = i;
+    //         return res;
+    //     }
+    // }
+
+    public int[] findOrder(int n, int[][] prerequisites) {
+        int[] inDegree = new int[n];
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        for(int[] e: prerequisites) {
+            int now = e[0];
+            int pre = e[1];
+            inDegree[now]++;
+            if(!map.containsKey(pre)) {
+                map.put(pre, new ArrayList<>());
+            }
+            map.get(pre).add(now);
         }
         Queue<Integer> qu = new LinkedList<>();
-        for(int i = 0; i < numCourses; i++){
-            if(in_degree[i] == 0)
-                qu.add(i);
-        }
         ArrayList<Integer> all = new ArrayList<>();
-        while(!qu.isEmpty()){
-            int top = qu.poll();
-            all.add(top);
-            for(int[] i : prerequisites){
-                if(i[1] == top){
-                    in_degree[i[0]]--;
-                    if(in_degree[i[0]] == 0)
-                        qu.add(i[0]);
+        for(int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) {
+                qu.add(i);
+                all.add(i);
+            }
+        }
+        while(!qu.isEmpty()) {
+            int pre = qu.poll();
+            if(!map.containsKey(pre)) {
+                continue;
+            }
+            for(int now: map.get(pre)) {
+                inDegree[now]--;
+                if(inDegree[now] == 0) {
+                    qu.add(now);
+                    all.add(now);
                 }
             }
         }
-        if(all.size() != numCourses) return new int[0];
-        else{
-            int[] res = new int[numCourses];
-            int j = 0;
-            for(int i : all)
-                res[j++] = i;
+        if(all.size() != n) {
+            return new int[]{};
+        }
+        else {
+            int[] res = new int[all.size()];
+            for(int i = 0; i < all.size(); i++) {
+                res[i] = all.get(i);
+            }
             return res;
         }
     }
