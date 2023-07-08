@@ -1,19 +1,20 @@
 class Solution {
     public boolean isPalindrome(int x) {
-        if(x < 0) return false;
-        ArrayList<Integer> arr = new ArrayList<>();
-        while(x != 0){
-            arr.add(x % 10);
-            x /= 10;
+        if (x < 0) {
+            return false;
         }
-        int len = arr.size();
-        boolean flag = true;
-        for(int i = 0, j = len - 1; i <= j; i++, j--){
-            if(arr.get(i) != arr.get(j)){
-                flag = false;
+        int n = 0;
+        ArrayList<Integer> arr = new ArrayList<>();
+        while (x != 0) {
+            arr.add(x % 10);
+            x = x / 10;
+            n++;
+        }
+        for (int i = 0, j = n - 1; i < j; i++, j--) {
+            if (arr.get(i) != arr.get(j)) {
                 return false;
             }
         }
-        return flag;
+        return true;
     }
 }
