@@ -1,0 +1,34 @@
+/*
+A string is said to be beautiful if each letter in the string appears at most as many times as the previous letter in the alphabet within the string; ie: b occurs no more times than a ; c occurs no more times than b ;etc. Note that letter a has no previous letter.
+
+Given a string, check whether it is beautiful.
+
+*/
+
+public static boolean solution(String inputString) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (char c: inputString.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                continue;
+            }
+            c = Character.toLowerCase(c);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        if (!map.containsKey('a')) {
+            return false;
+        }
+        int n = map.keySet().size();
+        int preSum = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            char c = (char)('a' + i);
+            if (!map.containsKey(c)) {
+                return false;
+            }
+            int nowSum = map.get(c);
+            if (nowSum > preSum) {
+                return false;
+            }
+            preSum = nowSum;
+        }
+        return true;
+    }
