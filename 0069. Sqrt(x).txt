@@ -1,13 +1,19 @@
 class Solution {
     public int mySqrt(int x) {
-        if(x == 0) return 0;
+        if(x == 0) {
+            return 0;
+        }
         int min = 1;
         int max = x;
         int res = 0;
-        while(min <= max){
+        while (min <= max) {
             int mid = (min + max) / 2;
-            if(x / mid == mid) return mid;
-            else if(x / mid < mid) max = mid - 1;
+            if (x / mid == mid) {
+                return mid;
+            }
+            else if (x / mid < mid) {
+                max = mid - 1;
+            }
             else {
                 min = mid + 1; 
                 res = mid;
