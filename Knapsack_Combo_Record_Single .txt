@@ -1,7 +1,6 @@
 /*Given a set of candidate numbers (C) and a target number (T), find all unique
-combinations in C where the candidate numbers sums to T. All candidate numbers
-are unique. The same repeated number may be chosen from C unlimited number
-of times.
+combinations in C where the candidate numbers sum to T. All candidate numbers
+are unique. The same repeated number may be chosen from C only once.
 
 Define the problem as (items, sum): 
 Pick => (items, sum-items[0])
