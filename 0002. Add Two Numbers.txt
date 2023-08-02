@@ -3,23 +3,23 @@ class Solution {
         ListNode res = new ListNode(-1);
         ListNode root = res;
         int add = 0;
-        while(l1 != null || l2 != null){
+        while (l1 != null || l2 != null) {
             ListNode newNode = new ListNode(0);
-            if(l1 == null){
+            if (l1 == null) {
                 int val = l2.val + add;
                 add = val >= 10 ? 1 : 0;
                 val = val >= 10 ? val - 10 : val;
                 newNode.val = val;
                 l2 = l2.next;
             }
-            else if(l2 == null){
+            else if (l2 == null) {
                 int val = l1.val + add;
                 add = val >= 10 ? 1 : 0;
                 val = val >= 10 ? val - 10 : val;
                 newNode.val = val;
                 l1 = l1.next;
             }
-            else{
+            else {
                 int val = l1.val + l2.val + add;
                 add = val >= 10 ? 1 : 0;
                 val = val >= 10 ? val - 10 : val;
@@ -30,7 +30,7 @@ class Solution {
             root.next = newNode;
             root = root.next;
         }
-        if(add == 1){
+        if (add == 1) {
             root.next = new ListNode(1);
         }
         return res.next;
