@@ -4,19 +4,19 @@ class Solution {
         int j = num2.length() - 1;
         boolean one = false;
         StringBuilder sb = new StringBuilder();
-        while(i > -1 || j > -1) {
+        while (i > -1 || j > -1) {
             int sum = one ? 1 : 0;
-            if(i > -1) {
+            if (i > -1) {
                 sum += (num1.charAt(i--) - '0');
             }
-            if(j > -1) {
+            if (j > -1) {
                 sum += (num2.charAt(j--) - '0');
             }
             one = sum >= 10 ? true : false;
             sum = sum >= 10 ? sum - 10 : sum;
             sb.insert(0, String.valueOf(sum));
         }
-        if(one) {
+        if (one) {
             sb.insert(0, "1");
         }
         return sb.toString();
