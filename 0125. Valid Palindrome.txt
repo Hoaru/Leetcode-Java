@@ -1,24 +1,23 @@
 class Solution {
     public static boolean isPalindrome(String s) {
         ArrayList<Character> arr = new ArrayList<>();
-        for(int i = 0; i < s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             char now = s.charAt(i);
-            if((48 <= (int)now && (int)now <= 57) || (97 <= (int)now && (int)now <= 122))
+            if (Character.isLowerCase(now)) {
                 arr.add(now);
-            else if((65 <= (int)now && (int)now <= 90)){
-                now += 32;
+            }
+            else if (Character.isLetter(now)) {
+                arr.add(Character.toLowerCase(now));
+            }
+            else if (Character.isDigit(now)) {
                 arr.add(now);
             }
         }
-        for(int i = 0, j = arr.size() - 1; i < j; i++,j--){
-            if(arr.get(i) != arr.get(j))
+        for (int i = 0, j = arr.size() - 1; i < j; i++,j--) {
+            if (arr.get(i) != arr.get(j)) {
                 return false;
+            }
         }
         return true;
-    }
-
-
-    public static void main(String[] args) {
-        System.out.println(isPalindrome("0P"));
     }
 }
