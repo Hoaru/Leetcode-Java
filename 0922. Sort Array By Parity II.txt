@@ -3,12 +3,12 @@ class Solution {
         int i = 0, j = 1;
         int len = nums.length;
         int[] res = new int[len];
-        for(int e = 0; e < len; e++){
-            if(nums[e] % 2 == 0){
+        for (int e = 0; e < len; e++) {
+            if (nums[e] % 2 == 0) {
                 res[i] = nums[e];
                 i += 2;
             }
-            else{
+            else {
                 res[j] = nums[e];
                 j += 2;
             } 
