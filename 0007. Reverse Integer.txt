@@ -1,15 +1,17 @@
 class Solution {
     public int reverse(int x) {
-        Queue<Integer> st = new LinkedList<>();
-        while(x != 0){
-            st.add(x % 10);
+        Queue<Integer> qu = new LinkedList<>();
+        while (x != 0) {
+            qu.add(x % 10);
             x /= 10;
         }
         long res = 0;
-        while(!st.isEmpty()){
-            res = res * 10 + st.poll();
+        while (!qu.isEmpty()) {
+            res = res * 10 + qu.poll();
         }
-        if(res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) return 0;
+        if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) {
+            return 0;
+        }
         return (int)res;
     }
 }
