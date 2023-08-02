@@ -8,30 +8,34 @@ class MyHashMap {
     }
 
     public void put(int key, int value) {
-        if(keys.contains(key)){
+        if (keys.contains(key)) {
             int i = keys.indexOf(key);
             vals.set(i, value);
         }
-        else{
+        else {
             keys.add(key);
             vals.add(value);
         }
     }
 
     public int get(int key) {
-        if(keys.contains(key)){
+        if (keys.contains(key)){
             int i = keys.indexOf(key);
             return vals.get(i);
         }
-        else return -1;
+        else {
+            return -1;
+        }
     }
 
     public void remove(int key) {
-        if(keys.contains(key)){
+        if (keys.contains(key)) {
             int i = keys.indexOf(key);
             keys.remove(i);
             vals.remove(i);
         }
-        else return;
+        else {
+            return;
+        }
     }
 }
