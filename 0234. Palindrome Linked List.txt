@@ -2,13 +2,13 @@ class Solution {
     public boolean isPalindrome(ListNode head) {
         ArrayList<Integer> nums = new ArrayList<>();
         ListNode root = head;
-        while(root != null) {
+        while (root != null) {
             nums.add(root.val);
             root = root.next;
         }
         int len = nums.size();
-        for(int i = 0; i < len/2; i++) {
-            if(nums.get(i) != nums.get(len - 1 - i)) {
+        for (int i = 0; i < len/2; i++) {
+            if (nums.get(i) != nums.get(len - 1 - i)) {
                 return false;
             }
         }
