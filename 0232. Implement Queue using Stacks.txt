@@ -11,20 +11,24 @@ class MyQueue {
     }
     
     public int pop() {
-        while(st1.size() != 1)
+        while (st1.size() != 1) {
             st2.push(st1.pop());
+        }
         int res = st1.pop();
-        while(!st2.isEmpty())
+        while (!st2.isEmpty()) {
             st1.push(st2.pop());
+        }
         return res;
     }
     
     public int peek() {
-        while(st1.size() != 1)
+        while(st1.size() != 1) {
             st2.push(st1.pop());
+        }
         int res = st1.peek();
-        while(!st2.isEmpty())
+        while(!st2.isEmpty()) {
             st1.push(st2.pop());
+        }
         return res;
     }
     
