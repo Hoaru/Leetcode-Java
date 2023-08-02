@@ -3,12 +3,12 @@ class Solution {
     public int res = Integer.MAX_VALUE;
 
     public void inOrder(TreeNode root) {
-        if(root == null) {
+        if (root == null) {
             return;
         }
         else {
             inOrder(root.left);
-            if(pre != null) {
+            if (pre != null) {
                 res = Math.min(res, Math.abs(pre.val - root.val));
             }
             pre = root;
