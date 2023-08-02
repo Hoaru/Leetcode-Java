@@ -7,15 +7,15 @@ class Solution {
         ArrayList<Integer> res = new ArrayList<>(map.values());
         Collections.sort(res);
         int end = res.get(0);
-        for(int i = 2; i <= end; i++) {
+        for (int i = 2; i <= end; i++) {
             boolean flag = true;
-            for(int e : res) {
-                if(e % i != 0) {
+            for (int e : res) {
+                if (e % i != 0) {
                     flag = false;
                     break;
                 }
             }
-            if(flag) {
+            if (flag) {
                 return true;
             }
         }
