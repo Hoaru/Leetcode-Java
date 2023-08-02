@@ -14,41 +14,75 @@
  * }
  */
 class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<TreeNode> q1 = new LinkedList<>();
+        Queue<TreeNode> q2 = new LinkedList<>();
+        q1.add(root.left);
+        q2.add(root.right);
+        while(!q1.isEmpty() && !q2.isEmpty()) {
+            TreeNode top1 = q1.peek();
+            TreeNode top2 = q2.peek();
+            if (top1 == null && top2 == null) {
+                q1.poll();
+                q2.poll();
+                continue;
+            } 
+            else if (top1 == null || top2 == null) {
+                return false;
+            } 
+            else {
+                if (top1.val != top2.val) {
+                    return false;
+                }
+                q1.poll();
+                q1.add(top1.left);
+                q1.add(top1.right);
+                q2.poll();
+                q2.add(top2.right);
+                q2.add(top2.left);
+            }
+        }
+        return q1.isEmpty() && q2.isEmpty();
+    }
+
     
-    public void helperLeft(TreeNode root, List nums){
-            if(root == null){
-                nums.add(null);
-                return;
-            }
-            if(root.left == null) nums.add(null);
-            else nums.add(root.left.val);
-            if(root.right == null) nums.add(null);
-            else nums.add(root.right.val);
-            helperLeft(root.left, nums);
-            helperLeft(root.right, nums);
-            return;
-        }
+    // public void helperLeft(TreeNode root, List nums){
+    //         if(root == null){
+    //             nums.add(null);
+    //             return;
+    //         }
+    //         if(root.left == null) nums.add(null);
+    //         else nums.add(root.left.val);
+    //         if(root.right == null) nums.add(null);
+    //         else nums.add(root.right.val);
+    //         helperLeft(root.left, nums);
+    //         helperLeft(root.right, nums);
+    //         return;
+    //     }
 
-        public void helperRight(TreeNode root, List nums){
-            if(root == null){
-                nums.add(null);
-                return;
-            }
-            if(root.right == null) nums.add(null);
-            else nums.add(root.right.val);
-            if(root.left == null) nums.add(null);
-            else nums.add(root.left.val);
-            helperRight(root.right, nums);
-            helperRight(root.left, nums);
-            return;
-        }
+    //     public void helperRight(TreeNode root, List nums){
+    //         if(root == null){
+    //             nums.add(null);
+    //             return;
+    //         }
+    //         if(root.right == null) nums.add(null);
+    //         else nums.add(root.right.val);
+    //         if(root.left == null) nums.add(null);
+    //         else nums.add(root.left.val);
+    //         helperRight(root.right, nums);
+    //         helperRight(root.left, nums);
+    //         return;
+    //     }
 
-        public boolean isSymmetric(TreeNode root) {
-            List left = new ArrayList();
-            List right = new ArrayList();
-            helperLeft(root, left);
-            helperRight(root, right);
-            if(left.equals(right)) return true;
-            else return false;
-        }
+    //     public boolean isSymmetric(TreeNode root) {
+    //         List left = new ArrayList();
+    //         List right = new ArrayList();
+    //         helperLeft(root, left);
+    //         helperRight(root, right);
+    //         if(left.equals(right)) return true;
+    //         else return false;
+    //     }
 }
