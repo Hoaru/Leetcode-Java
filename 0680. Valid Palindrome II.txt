@@ -2,8 +2,10 @@ class Solution {
     public boolean validPalindrome(String s) {
         int i = 0; 
         int j = s.length() - 1;
-        for(; i < j; i++, j--){
-            if(s.charAt(i) == s.charAt(j)) continue;
+        for (; i < j; i++, j--) {
+            if (s.charAt(i) == s.charAt(j)) {
+                continue;
+            }
             else{
                 return helper(i + 1, j, s) || helper(i, j - 1, s);
             }
@@ -12,9 +14,13 @@ class Solution {
     }
 
     public boolean helper(int x, int y, String s){
-        for(int i = x, j = y; i < j; i++, j--){
-            if(s.charAt(i) == s.charAt(j)) continue;
-            else return false;
+        for (int i = x, j = y; i < j; i++, j--) {
+            if(s.charAt(i) == s.charAt(j)) {
+                continue;
+            }
+            else {
+                return false;
+            }
         }
         return true;
     }
