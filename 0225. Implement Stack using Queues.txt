@@ -12,25 +12,28 @@ class MyStack {
         }
 
         public int pop() {
-            if(q1.size() == 1)
+            if (q1.size() == 1) {
                 return q1.remove();
-            while(q1.size() > 1)
+            }
+            while (q1.size() > 1) {
                 q2.add(q1.remove());
+            }
             int res = q1.remove();
-            while(!q2.isEmpty())
+            while (!q2.isEmpty()) {
                 q1.add(q2.remove());
+            }
             return res;
         }
 
         public int top() {
             int res = 0;
-            while(!q1.isEmpty()){
+            while (!q1.isEmpty()) {
                 res = q1.remove();
-                System.out.println(res);
                 q2.add(res);
             }
-            while(!q2.isEmpty())
-                q1.add(q2.remove());
+        while(!q2.isEmpty()) {
+            q1.add(q2.remove());
+        }
             return res;
         }
 
