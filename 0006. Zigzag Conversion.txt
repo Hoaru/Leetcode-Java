@@ -1,23 +1,63 @@
 class Solution {
-    public static String convert(String s, int numRows) {
-        if(s.length() <= 1 || numRows == 1) return s;
-        int unit = 2 * numRows - 2;
-        ArrayList<StringBuilder> bu = new ArrayList<>();
-        for(int i = 0; i < numRows; i++){
-            StringBuilder e = new StringBuilder();
-            e.append("");
-            bu.add(e);
+    public static String convert(String s, int rows) {
+        if (s.length() == 1 || rows == 1) {
+            return s;
         }
-        for(int j = 0; j < s.length(); j++){
-            char now = s.charAt(j);
-            int num = j % unit;
-            if(num > unit / 2) num = unit - num;
-            bu.get(num).append(now);
+        int unit = 2 * rows - 2;
+        ArrayList<StringBuilder> arr = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            arr.add(new StringBuilder());
+        }
+        for (int i = 0; i < s.length(); i++) {
+            int num = i % unit;
+            if (num > unit / 2) {
+                num = unit - num;
+            }
+            arr.get(num).append(s.charAt(i));
         }
         StringBuilder res = new StringBuilder();
-        for(StringBuilder e : bu){
-            res.append(e.toString());
+        for (StringBuilder sb : arr) {
+            res.append(sb.toString());
         }
         return res.toString();
     }
+
+    // public String convert(String s, int rows) {
+    //     if (rows == 1) {
+    //         return s;
+    //     }
+    //     int interval = 2 * rows - 2;
+    //     int num = s.length() / interval;
+    //     if (num * interval < s.length()) {
+    //         num += 1;
+    //     }
+    //     StringBuilder sb = new StringBuilder();
+    //     ArrayList<Deque<Character>> arr =  new ArrayList<>();
+    //     for (int i = 0; i < num; i++) {
+    //         Deque<Character> qu = new LinkedList<>();
+    //         for (int j = i * interval; j < Math.min((i + 1) * interval, s.length()); j++) {
+    //             qu.add(s.charAt(j));
+    //         }
+    //         while (qu.size() < interval) {
+    //             qu.add(' ');
+    //         }
+    //         arr.add(qu);
+    //     }
+    //     for (Deque<Character> qu : arr) {
+    //         sb.append(qu.removeFirst());
+    //     }
+    //     for (int i = 0; i < rows; i++) {
+    //         for (Deque<Character> qu : arr) {
+    //             if (!qu.isEmpty()) {
+    //                 char c = qu.removeFirst();
+    //                 sb.append(c == ' ' ? "" : c);
+    //             }
+    //             if (!qu.isEmpty()) {
+    //                 char c = qu.removeLast();
+    //                 sb.append(c == ' ' ? "" : c);
+    //             }
+    //         }
+    //     }
+    //     return sb.toString();
+    // }
 }
