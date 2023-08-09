@@ -10,26 +10,28 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(k == 0 || head == null) return head;
-        ListNode res = null;
-        ListNode pointer = head;
-        int sum = 1;
-        while(pointer.next != null) {
-            pointer = pointer.next; 
-            sum ++;
+        if (head == null || k == 0) {
+            return head;
         }
-        k = sum - (k % sum);
-        pointer.next = head;
-        //pointer now = end
-        int c = 0;
-        while(true) {
-            pointer = pointer.next;
-            c++;
-            if(c == k) {
-                res = pointer.next;
-                pointer.next = null;
-                return res;
-            }
+        int n = 1;
+        ListNode p = head;
+        while (p.next != null) {
+            p = p.next;
+            n++;
         }
+        p.next = head;
+        k = n - k % n;
+        if (k == 0) {
+            return head;
+        }
+        p = head;
+        n = 0;
+        while (n < k - 1) {
+            n++;
+            p = p.next;
+        }
+        ListNode res = p.next;
+        p.next = null;
+        return res;
     }
 }
