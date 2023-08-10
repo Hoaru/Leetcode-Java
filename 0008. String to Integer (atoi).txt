@@ -1,36 +1,33 @@
 class Solution {
-    public int myAtoi(String str) {
-        int len = str.length();
-        boolean isNegative = false;
-        int index = 0;
-        int result = 0;
-        if (len == 0){
+    public int myAtoi(String s) {
+        int n = s.length();
+        boolean negative = false;
+        int i = 0;
+        int res = 0;
+        if (n == 0) {
             return 0;
         }
-        while (index < len && str.charAt(index) == ' '){
-            index++;
+        while (i < n && s.charAt(i) == ' ') {
+            i++;
         }
-        if (index < len) {
-            if (str.charAt(index) == '-') {
-                isNegative = true;
-                index++;
+        if (i < n) {
+            if (s.charAt(i) == '-') {
+                negative = true;
+                i++;
             }
-            else if (str.charAt(index) == '+'){
-                index++;
+            else if (s.charAt(i) == '+'){
+                i++;
             }
         }
-        while (index < len && isDigit(str.charAt(index))) {
-            int digit = str.charAt(index) - '0';
-            if (result > (Integer.MAX_VALUE / 10) || (result == (Integer.MAX_VALUE / 10) && digit > 7)){
-                return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        while (i < n && Character.isDigit(s.charAt(i))) {
+            int digit = s.charAt(i) - '0';
+            if (res > (Integer.MAX_VALUE / 10) || (res == (Integer.MAX_VALUE / 10) && digit > 7)){
+                return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             }
-            result = (result * 10) + digit;
-            index++;
+            res = res * 10 + digit;
+            i++;
         }
-        return isNegative ? -result : result;
+        return negative ? -res : res;
     }
-    
-    private boolean isDigit(char ch) {
-        return ch >= '0' && ch <= '9';
-    }
+
 }
