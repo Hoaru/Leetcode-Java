@@ -1,13 +1,20 @@
 class Solution {
-    public void helper(List<String> res, String s, int l, int r, int n){
-        if(l == n && r == n) res.add(s);
-        if(l < n) helper(res, s + "(", l + 1, r, n);
-        if(r < l) helper(res, s + ")", l, r + 1, n);
+    
+    public void helper(String s, int l, int r, int n, List<String> res) {
+        if (l == n && r == n) {
+            res.add(s);
+        }
+        if (r < l) {
+            helper(s + ')', l, r + 1, n, res);
+        }
+        if (l < n) {
+            helper(s + '(', l + 1, r, n, res);
+        }
     }
 
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
-        helper(res, "", 0, 0, n);
+        helper("", 0, 0, n, res);
         return res;
     }
 }
