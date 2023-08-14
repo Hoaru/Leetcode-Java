@@ -1,34 +1,54 @@
 class Solution {
+
+    // public ListNode swapPairs(ListNode head) {
+    //     if (head == null) {
+    //         return head;
+    //     }
+    //     ListNode p = head;
+    //     HashMap<Integer, ListNode> map = new HashMap<>();
+    //     int n = 0;
+    //     while (p != null) {
+    //         map.put(n++, p);
+    //         p = p.next;
+    //     }
+    //     ListNode last = null;
+    //     if (n % 2 == 1) {
+    //         last = map.get(n - 1);
+    //         map.remove(n - 1);
+    //     }
+    //     ListNode root = new ListNode(0);
+    //     p = root;
+    //     for (int i = 0; i < map.size() / 2; i++) {
+    //         p.next = map.get(2 * i + 1);
+    //         p = p.next;
+    //         p.next = map.get(2 * i);
+    //         p = p.next;
+    //     }
+    //     if (last != null) {
+    //         p.next = last;
+    //         p = p.next;
+    //     }
+    //     p.next = null;
+    //     return root.next;
+    // }
     
     public ListNode swapPairs(ListNode head) {
         if (head == null) {
             return head;
         }
-        ListNode p = head;
-        HashMap<Integer, ListNode> map = new HashMap<>();
-        int n = 0;
-        while (p != null) {
-            map.put(n++, p);
-            p = p.next;
+        ListNode root = new ListNode(-1);
+        root.next = head;
+        ListNode pre = root, curr = head;
+        while (curr != null && curr.next != null) {
+            pre.next = curr.next;
+            pre = pre.next;
+            curr.next = curr.next.next;
+            pre.next = curr;
+
+            pre = pre.next;
+            curr = pre.next;
         }
-        ListNode last = null;
-        if (n % 2 == 1) {
-            last = map.get(n - 1);
-            map.remove(n - 1);
-        }
-        ListNode root = new ListNode(0);
-        p = root;
-        for (int i = 0; i < map.size() / 2; i++) {
-            p.next = map.get(2 * i + 1);
-            p = p.next;
-            p.next = map.get(2 * i);
-            p = p.next;
-        }
-        if (last != null) {
-            p.next = last;
-            p = p.next;
-        }
-        p.next = null;
         return root.next;
+
     }
 }
