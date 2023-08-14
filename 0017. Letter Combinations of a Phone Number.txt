@@ -1,7 +1,11 @@
 class Solution {
+    
     public List<String> letterCombinations(String digits) {
-        int len = digits.length();
-        if(len == 0) return new ArrayList<>();
+        ArrayList<String> res = new ArrayList<>();
+        int n = digits.length();
+        if (n == 0) {
+            return res;
+        }
         HashMap<Character, List<Character>> map = new HashMap<>();
         map.put('2', Arrays.asList('a', 'b', 'c'));
         map.put('3', Arrays.asList('d', 'e', 'f'));
@@ -11,20 +15,30 @@ class Solution {
         map.put('7', Arrays.asList('p', 'q', 'r', 's'));
         map.put('8', Arrays.asList('t', 'u', 'v'));
         map.put('9', Arrays.asList('w', 'x', 'y', 'z'));
-        LinkedList<String> qu = new LinkedList<>();
-        qu.offer(digits);
-        for(int i = 0; i < len; i++){
-            LinkedList<String> newQu = new LinkedList<>();
-            while(!qu.isEmpty()){
-                String top = qu.poll();
-                char now = top.charAt(i);
-                for(char c: map.get(now))
-                    newQu.offer(top.replaceFirst(Character.toString(now), Character.toString(c)));
+        StringBuilder sb = new StringBuilder(digits);
+        Queue<StringBuilder> qu = new LinkedList<>();
+        qu.add(sb);
+        int i = 0;
+        while (!qu.isEmpty()) {
+            Queue<StringBuilder> newQu = new LinkedList<>();
+            while (!qu.isEmpty()) {
+                StringBuilder top = qu.poll();
+                char first = top.charAt(i);
+                for (char c : map.get(first)) {
+                    StringBuilder next = new StringBuilder(top);
+                    next.setCharAt(i, c);
+                    newQu.add(next);
+                }
             }
             qu = newQu;
+            i++;
+            if (i == n) {
+                for (StringBuilder e : qu) {
+                    res.add(e.toString());
+                }
+                break;
+            }
         }
-        List<String> res = new ArrayList<>();
-        for(String i : qu) res.add(i);
         return res;
     }
 }
