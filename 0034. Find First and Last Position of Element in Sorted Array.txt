@@ -1,40 +1,41 @@
 class Solution {
 
-    public int BiSearch(int[] nums, int start, int end, int target){
-        if(nums.length == 0) return -1;
-        if(start >= end){
-            if(nums[start] == target)
-                return start;
-            else return -1;
+    public int binarySearch(int[] nums, int target, int l, int r) {
+        if (l > r) {
+            return -1;
         }
-        int mid = (start + end) / 2;
-        if(nums[mid] == target) return mid;
-        else if(nums[mid] < target){
-            return BiSearch(nums, mid + 1, end, target);
+        int m = l + (r - l) / 2;
+        if (target > nums[m]) {
+            return binarySearch(nums, target, m + 1, r);
         }
-        else{
-            return BiSearch(nums, start, mid - 1, target);
+        else if (target < nums[m]) {
+            return binarySearch(nums, target, l, m - 1);
+        }
+        else {
+            return m;
         }
     }
 
     public int[] searchRange(int[] nums, int target) {
-        int[] res= new int[2];
-        int start = 0, end = nums.length - 1;
-        res[0] = BiSearch(nums, start, end, target);
-        res[1] = res[0];
-        if(res[0] == -1){
+        int[] res = new int[]{-1, -1};
+        int n = nums.length;
+        if (n == 0) {
             return res;
         }
-        for(int i = res[0]; i > -1; i--){
-            if(nums[i] == target)
-                res[0] = i;
-            else break;
+        int index = binarySearch(nums, target, 0, n - 1);
+        if (index == -1) {
+            return res;
         }
-        for(int i = res[1]; i < nums.length; i++){
-            if(nums[i] == target)
-                res[1] = i;
-            else break;
+        int i = index;
+        while (i > -1 && nums[i] == nums[index]) {
+            i--;
         }
+        res[0] = i + 1;
+        i = index;
+        while (i < n && nums[i] == nums[index]) {
+            i++;
+        }
+        res[1] = i - 1;
         return res;
     }
 }
