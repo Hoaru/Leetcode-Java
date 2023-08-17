@@ -1,47 +1,56 @@
-/*Given a collection of numbers, nums, that might contain duplicates, 
-return all possible unique permutations in any order.
-For example,
-[1,2,1] have the following permutations:
-[1,2,1], [1,1,2], [2,1,1].
-*/
+class Solution {
+    // public void helper(ArrayList<Integer> num, ArrayList<Integer> cur, ArrayList<List<Integer>> res){
+    //     if(num.size() == 0){
+    //         res.add(cur);
+    //         return;
+    //     }
+    //     else{
+    //         for(int i = 0; i < num.size(); i++){
+    //             ArrayList<Integer> newCur = new ArrayList<>(cur);
+    //             newCur.add(num.get(i));
+    //             ArrayList<Integer> newNum = new ArrayList<>(num);
+    //             newNum.remove(num.get(i));
+    //             helper(newNum, newCur, res);
+    //             while(i + 1 < num.size() && num.get(i + 1) == num.get(i)) i++;
+    //         }
+    //     }
+    // }
 
-import java.util.*;
+    // public List<List<Integer>> permuteUnique(int[] nums) {
+    //     ArrayList<List<Integer>> res = new ArrayList<>();
+    //     ArrayList<Integer> newCur = new ArrayList<>();
+    //     ArrayList<Integer> newNum = new ArrayList<>();
+    //     Arrays.sort(nums);
+    //     for(int i : nums) newNum.add(i);
+    //     helper(newNum, newCur, res);
+    //     return res;
+    // }
 
-public class Main {
-    public static void helper(ArrayList<Integer> num, ArrayList<Integer> cur, ArrayList<List<Integer>> res){
-            if(num.size() == 0){
-                res.add(cur);
-                return;
-            }
-            else{
-                for(int i = 0; i < num.size(); i++){
-                    ArrayList<Integer> newCur = new ArrayList<>(cur);
-                    newCur.add(num.get(i));
-                    ArrayList<Integer> newNum = new ArrayList<>(num);
-                    newNum.remove(num.get(i));
-                    helper(newNum, newCur, res);
-                    while(i + 1 < num.size() && num.get(i + 1) == num.get(i)) i++;
+    public void helper(List<List<Integer>> res, List<Integer> curr, HashMap<Integer, Integer> map, int n) {
+        if (curr.size() == n) {
+            res.add(new ArrayList<>(curr));
+        }
+        else {
+            for (int e : map.keySet()) {
+                int sum = map.get(e);
+                if (sum >= 1) {
+                    curr.add(e);
+                    map.put(e, sum - 1);
+                    helper(res, curr, map, n);
+                    curr.remove(curr.size() - 1);
+                    map.put(e, sum);
                 }
             }
         }
+    }
 
-        public static List<List<Integer>> permute(int[] nums) {
-            ArrayList<List<Integer>> res = new ArrayList<>();
-            ArrayList<Integer> newCur = new ArrayList<>();
-            ArrayList<Integer> newNum = new ArrayList<>();
-            Arrays.sort(nums);
-            for(int i : nums) newNum.add(i);
-            helper(newNum, newCur, res);
-            return res;
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int e: nums) {
+            map.put(e, map.getOrDefault(e, 0) + 1);
         }
-
-
-
-    public static void main(String[] args)
-    {
-        int[] nums = {1,2,1};
-        System.out.println(permute(nums));
-        System.exit(0);
-        //System.out.println();
+        helper(res, new ArrayList<>(), map, nums.length);
+        return res;
     }
 }
