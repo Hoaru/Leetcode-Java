@@ -1,19 +1,42 @@
 class Solution {
     
-    public boolean inOrder(TreeNode root, ArrayList<Integer> res){
-        if(root == null) return true;
-        boolean resLeft = inOrder(root.left, res);
-        if(!resLeft) return false;
-        if(res.size() != 0){
-            int last = res.get(res.size() - 1);
-            if(root.val <= last) return false;
+    // public boolean inOrder(TreeNode root, ArrayList<Integer> res){
+    //     if (root == null) {
+    //         return true;
+    //     }
+    //     if (!inOrder(root.left, res)) {
+    //         return false;
+    //     }
+    //     if (res.size() != 0) {
+    //         if (root.val <= res.get(res.size() - 1)) {
+    //             return false;
+    //         }
+    //     }
+    //     res.add(root.val);
+    //     return inOrder(root.right, res);
+    // }
+
+    // public boolean isValidBST(TreeNode root) {
+    //     ArrayList<Integer> res = new ArrayList<>();
+    //     return inOrder(root, res);
+    // }
+
+    // Time complexity: O(n)
+    // Space complexity: O(1)
+
+    public boolean helper(TreeNode root, Integer max, Integer min) {
+        if (root == null) {
+            return true;
         }
-        res.add(root.val);
-        return inOrder(root.right, res);
+        else if ((max != null && root.val >= max) || (min != null && root.val <= min)){
+            return false;
+        }
+        else {
+            return helper(root.left, root.val, min) && helper(root.right, max, root.val);
+        }
     }
 
     public boolean isValidBST(TreeNode root) {
-        ArrayList<Integer> res = new ArrayList<>();
-        return inOrder(root, res);
+        return helper(root, null, null);
     }
 }
