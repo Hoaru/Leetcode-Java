@@ -14,29 +14,41 @@
  * }
  */
 class Solution {
-    public void helper(int target, TreeNode root, List<Integer> cur, List<List<Integer>> res){
-        if(root == null) return;
-        target -= root.val;
-        if(target == 0 && root.left == null && root.right == null){
-            ArrayList<Integer> newCur = new ArrayList<>(cur);
-            newCur.add(root.val);
-            res.add(newCur);
+
+// Time Complexity: O(n^2)
+// In the worst case, the tree is a complete binary tree with n nodes. For each node, we traverse all the way down a path till leaf, which takes O(n) time. And there can be n paths in the worst case. So the overall time complexity is O(n^2).
+
+// Space Complexity: O(n)
+// The recursion stack depth can go upto n in the worst case. Additionally, the curr list storing the path can contain at most n nodes. So the overall space complexity is O(n).
+
+
+    public void helper(int target, TreeNode root, List<Integer> curr, List<List<Integer>> res){
+        if (root == null) {
             return;
         }
-        else{
-            cur.add(root.val);
-            helper(target, root.left, cur, res);
-            helper(target, root.right, cur, res);
-            cur.remove(cur.size() - 1);
+        target -= root.val;
+        if (target == 0 && root.left == null && root.right == null) {
+            ArrayList<Integer> newCurr = new ArrayList<>(curr);
+            newCurr.add(root.val);
+            res.add(newCurr);
+            return;
+        }
+        else {
+            curr.add(root.val);
+            helper(target, root.left, curr, res);
+            helper(target, root.right, curr, res);
+            curr.remove(curr.size() - 1);
             return;
         }
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> res = new ArrayList<>();
-        if(root == null) return res;
-        List<Integer> cur = new ArrayList<>();
-        helper(targetSum, root, cur, res);
+        if (root == null) {
+            return res;
+        }
+        List<Integer> curr = new ArrayList<>();
+        helper(targetSum, root, curr, res);
         return res;
     }
 }
