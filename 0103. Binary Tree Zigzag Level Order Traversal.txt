@@ -14,25 +14,47 @@
  * }
  */
 class Solution {
+
+    // Time complexity: O(n)
+    // Space complexity: O(n)
+    
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        ArrayList<List<Integer>> res = new ArrayList<>();
-        if(root == null) return res;
-        Queue<TreeNode> qu = new LinkedList<>();
-        qu.add(root);
-        boolean isOdd = false;
-        while(!qu.isEmpty()){
-            ArrayList<Integer> cur = new ArrayList<>();
-            Queue<TreeNode> new_qu = new LinkedList<>();
-            while(!qu.isEmpty()){
-                TreeNode top = qu.poll();
-                cur.add(top.val);
-                if(top.left != null) new_qu.add(top.left);
-                if(top.right != null) new_qu.add(top.right);
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<TreeNode> st = new Stack<>();
+        st.add(root);
+        boolean even = true;
+        while (!st.isEmpty()) {
+            ArrayList<Integer> curr = new ArrayList<>();
+            Stack<TreeNode> newSt = new Stack<>();
+            while (!st.isEmpty()) {
+                TreeNode top = st.pop();
+                if (top == null) {
+                    continue;
+                }
+                curr.add(top.val);
+                if (!even) {
+                    if (top.right != null) {
+                        newSt.add(top.right);
+                    } 
+                    if (top.left != null) {
+                        newSt.add(top.left);
+                    }  
+                }
+                else {
+                    if (top.left != null) {
+                        newSt.add(top.left);
+                    }
+                    if (top.right != null) {
+                        newSt.add(top.right);
+                    }   
+                }
             }
-            if(isOdd) Collections.reverse(cur);
-            isOdd = !isOdd;
-            res.add(cur);
-            qu = new_qu;
+            even = !even;
+            res.add(curr);
+            st = newSt;
         }
         return res;
     }
