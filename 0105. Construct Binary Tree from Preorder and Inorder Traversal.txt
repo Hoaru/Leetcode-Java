@@ -16,10 +16,13 @@
 
 class Solution {
 
+    // Time complexity: O(n)
+    // Space complexity: O(n)
+
     private int pIndex = 0;
     
     public TreeNode helper(int[] pre, int[] in, HashMap<Integer, Integer> map, int iStart, int iEnd) {
-        if(pIndex > pre.length - 1 || iStart > iEnd) {
+        if (pIndex > pre.length - 1 || iStart > iEnd) {
             return null;
         }
         else if (iStart == iEnd) {
@@ -38,7 +41,7 @@ class Solution {
     
     public TreeNode buildTree(int[] pre, int[] in) {
         HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i < in.length; i++) {
+        for (int i = 0; i < in.length; i++) {
             map.put(in[i], i);
         }
         return helper(pre, in, map, 0, in.length - 1);
