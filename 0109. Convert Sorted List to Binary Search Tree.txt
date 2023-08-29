@@ -24,11 +24,22 @@
  * }
  */
 class Solution {
+
+        // Time Complexity: O(nlogn)
+        // The algorithm recursively builds the BST by finding the middle element of the linked list as the root. Finding the middle takes O(n) time and recursing on the left and right halves takes O(logn) time per level. There are logn levels so the overall time complexity is O(nlogn).
+
+        // Space Complexity: O(logn)
+        // The recursion stack can go up to logn levels deep in the worst case, when the BST is completely balanced. So the space complexity is O(logn).
+        
     public TreeNode sortedListToBST(ListNode head) {
-        if(head == null) return null;
-        if(head.next == null) return new TreeNode(head.val);
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
         ListNode slow = head, fast = head, pre = head;
-        while(fast != null && fast.next != null) {
+        while (fast != null && fast.next != null) {
             pre = slow;
             slow = slow.next;
             fast = fast.next.next;
