@@ -1,6 +1,18 @@
 class Solution {
+
+// Time Complexity: O(mn)
+// - The helper() method is called on each 'O' cell in the border, so in the worst case that is O(m + n) calls.
+// - Each call to helper() takes O(1) time, but does recursive calls in 4 directions. Since it only visits each cell once, this is O(mn) total time for all calls.
+// - The final loop to flip 'O' and '2' is O(mn).
+// Therefore, the overall time complexity is O(m + n + mn + mn) = O(mn).
+
+// Space Complexity: O(m + n)
+// The helper() method is recursive, so O(m + n) space is used for the call stack in the worst case. Therefore, the overall space complexity is O(m + n).
+
     public void helper(char[][] board, int m, int n, int r, int c) {
-        if(r < 0 || r > m - 1 || c < 0 || c > n - 1 || board[r][c] == 'X' || board[r][c] == '2') return;
+        if (r < 0 || r > m - 1 || c < 0 || c > n - 1 || board[r][c] == 'X' || board[r][c] == '2') {
+            return;
+        }
         else {
             board[r][c] = '2';
             helper(board, m, n, r - 1, c);
@@ -13,31 +25,39 @@ class Solution {
     public void solve(char[][] board) {
         int m = board.length;
         int n = board[0].length;
+        //mark illegal region
         //up
-        for(int c = 0; c < n; c++) {
-            if(board[0][c] == 'O')
+        for (int c = 0; c < n; c++) {
+            if (board[0][c] == 'O') {
                 helper(board, m, n, 0, c);
+            }
         }
         //down
-        for(int c = 0; c < n; c++) {
-            if(board[m - 1][c] == 'O')
+        for (int c = 0; c < n; c++) {
+            if (board[m - 1][c] == 'O') {
                 helper(board, m, n, m - 1, c);
+            }
         }
         //left
-        for(int r = 0; r < m; r++) {
-            if(board[r][0] == 'O')
+        for (int r = 0; r < m; r++) {
+            if (board[r][0] == 'O') {
                 helper(board, m, n, r, 0);
+            }
         }
         //right
-        for(int r = 0; r < m; r++) {
-            if(board[r][n - 1] == 'O')
+        for (int r = 0; r < m; r++) {
+            if (board[r][n - 1] == 'O') {
                 helper(board, m, n, r, n - 1);
+            }
         }
-        for(int r = 0; r < m; r++) {
-            for(int c = 0; c < n; c++) {
+
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                //turn legal ergion to 'X'
                 if(board[r][c] == 'O') {
                     board[r][c] = 'X';
                 }
+                //turn illegal ergion back to 'O'
                 else if(board[r][c] == '2') {
                     board[r][c] = 'O';
                 }
