@@ -16,31 +16,34 @@
 
 class Solution {
 
-    private int pIndex;
+    // Time complexity: O(n)
+    // Space complexity: O(n)
 
-    public TreeNode helper(int[] in, int[] post, HashMap<Integer, Integer> map, int iStart, int iEnd) {
-        if(pIndex < 0 || iStart > iEnd) {
+    private int pIndex = 0;
+    
+    public TreeNode helper(int[] pre, int[] in, HashMap<Integer, Integer> map, int iStart, int iEnd) {
+        if (pIndex > pre.length - 1 || iStart > iEnd) {
             return null;
         }
-        else if(iStart == iEnd) {
-            return new TreeNode(post[pIndex--]);
+        else if (iStart == iEnd) {
+            return new TreeNode(pre[pIndex++]);
         }
         else {
-            int rootVal = post[pIndex--];
+            int rootVal = pre[pIndex++];
             int iMid = map.get(rootVal);
             TreeNode root = new TreeNode(rootVal);
-            //由于使用 inOrder + postOrder(L-R-M)，M与R相邻，所以递归时，先建立右子树
-            root.right = helper(in, post, map, iMid + 1, iEnd);
-            root.left = helper(in, post, map, iStart, iMid - 1);
+            //由于使用 inOrder + preOrder(M-L-R)，M与L相邻，所以递归时，先建立左子树
+            root.left = helper(pre, in, map, iStart, iMid - 1);
+            root.right = helper(pre, in, map, iMid + 1, iEnd);
             return root;
         }
     }
-    public TreeNode buildTree(int[] in, int[] post) {
-        pIndex = in.length - 1;
+    
+    public TreeNode buildTree(int[] pre, int[] in) {
         HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i < post.length; i++) {
+        for (int i = 0; i < in.length; i++) {
             map.put(in[i], i);
         }
-        return helper(in, post, map, 0, in.length - 1);
+        return helper(pre, in, map, 0, in.length - 1);
     }
 }
