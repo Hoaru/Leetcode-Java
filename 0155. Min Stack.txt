@@ -1,22 +1,24 @@
 class MinStack {
+    // 存储全部数值
     Stack<Integer> st1;
+    // 仅存储比首个数值小的数值
     Stack<Integer> st2;
 
     public MinStack() {
-      st1 = new Stack<>();
-      st2 = new Stack<>();
+        st1 = new Stack<>();
+        st2 = new Stack<>();
     }
     
     public void push(int val) {
         st1.add(val);
-        if(st2.isEmpty() || st2.peek() >= val) {
+        if (st2.isEmpty() || st2.peek() >= val) {
             st2.add(val);
         }
     }
     
     public void pop() {
         int x = st1.pop();
-        if(!st2.isEmpty() && st2.peek() == x) {
+        if (!st2.isEmpty() && st2.peek() == x) {
             st2.pop();
         }
     }
