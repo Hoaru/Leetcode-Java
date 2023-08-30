@@ -6,9 +6,9 @@ class LRUCache {
 
     public LRUCache(int capacity) {
         cap = capacity;
-        cache = new LinkedHashMap<>(cap, 0.75f, true){
+        cache = new LinkedHashMap<>(cap, 0.75f, true) {
             @Override
-            public boolean removeEldestEntry(Map.Entry entry){
+            public boolean removeEldestEntry(Map.Entry entry) {
                 return cache.size() > cap;
             }
         };
