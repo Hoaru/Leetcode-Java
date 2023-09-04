@@ -1,0 +1,11 @@
+class Solution {
+    public int findComplement(int num) {
+        // example:
+        // num = 5(101)
+        // highestOneBit of 101 is 100
+        // highestOneMinusOne = 100 << 1, minus 1 = 0111
+        int highestOneMinusOne = (Integer.highestOneBit(num) << 1) - 1;
+        // ~ num = 1010
+        return ~ num & highestOneMinusOne;
+    }
+}
