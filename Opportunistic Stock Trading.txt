@@ -88,7 +88,7 @@ public class Main {
                     PrintTrade(b.name, "I", sum);
                 }
                 else {
-                    PrintTrade(b.name, "B", sum);
+                    PrintTrade(b.name, "B", BundlePrice);
                 }
             }
         }
