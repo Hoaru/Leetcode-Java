@@ -1,0 +1,32 @@
+import java.util.*;
+public class Main {
+
+    public static int solve(int[] list) {
+        int res = 0;
+        for (int i = list.length - 1; i > -1; i--) {
+            int sum = 0 + list[i];
+            if (sum == 0) {
+                continue;
+            }
+            int pre = list[i];
+            for (int j = i - 1; j > -1; j--) {
+                int curr = Math.min(list[j], pre - 1);
+                if (curr == 0) {
+                    break;
+                }
+                else {
+                    sum += curr;
+                    pre = curr;
+                }
+            }
+            if (sum > res) {
+                res = sum;
+            }
+        }
+        return res;
+    }
+    public static void main(String[] args) {
+        int[] arr = new int[]{7,4,5,2,6,5};
+        System.out.print(solve(arr));
+    }
+}
