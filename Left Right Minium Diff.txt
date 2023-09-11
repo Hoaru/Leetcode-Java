@@ -1,0 +1,24 @@
+import java.util.*;
+public class Main {
+
+    public static long solve(int[] arr) {
+        int n = arr.length;
+        long res = Long.MAX_VALUE, left = 0, right = 0;
+        for (int i : arr) {
+            right += i;
+        }
+        for (int e = 0; e < n; e++) {
+            left += arr[e]; // 左边有 e + 1个数
+            right -= arr[e]; // 右边有 n - e - 1个数
+            long diff = Math.abs(left - right);
+            res = Math.min(res, diff);
+        }
+        return res;
+    }
+
+
+    public static void main(String[] args) {
+        int[] arr1 = new int[]{1,2,3,2};
+        System.out.print(solve(arr1));
+    }
+}
