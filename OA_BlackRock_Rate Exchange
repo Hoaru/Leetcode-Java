@@ -1,0 +1,63 @@
+import java.util.*;
+public class Main {
+
+    public static Double helper(String[] strs) {
+        if (strs.length != 3) {
+            return -2.0;
+        }
+        HashMap<String, Double> map0 = new HashMap<>();
+        HashMap<String, ArrayList<String>> map1 = new HashMap<>();
+        //小转换集合
+        String[] turns = strs[0].split(";");
+        //目前
+        String now = strs[1];
+        //目标
+        String target = strs[2];
+        for (String t : turns) {
+            String[] three = t.split(",");
+            String from = three[0];
+            String to = three[1];
+            double rate = Double.valueOf(three[2]);
+            String that = from + to;
+            map0.put(that, rate);
+            if (!map1.containsKey(to)) {
+                ArrayList<String> zzz = new ArrayList<>();
+                zzz.add(that);
+                map1.put(to, zzz);
+            }
+            else {
+                map1.get(to).add(that);
+            }
+            if (map1.containsKey(from)) {
+                ArrayList<String> zzz = map1.get(from);
+                for (String z : zzz) {
+                    String newThat = z.substring(0,3) + to;
+                    double newRate = map0.get(z) * rate;
+                    if (map0.containsKey(newThat)) {
+                        map0.put(newThat, Math.max(map0.get(newThat), newRate));
+                    }
+                    else {
+                        map0.put(newThat, newRate);
+                    }
+                }
+            }
+        }
+        String key = now + target;
+        if (map0.containsKey(key)) {
+            return map0.get(key);
+        }
+        else {
+            return -1.0;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String[] arr1 = new String[]{
+                "USD,GBP,0.7;USD,JPY,109;GBP,JPY,155;CAD,CNY,5.27;CAD,KRW,921",
+                "USD",
+                "CNY"
+        };
+        System.out.print(helper(arr1));
+    }
+}
