@@ -1,0 +1,24 @@
+public static boolean onediff(int a, int b){
+    ArrayList<Integer> arr = new ArrayList<>();
+    while(a != 0){
+        arr.add(a % 10);
+        a = a / 10;
+    }
+    int sum = 0;
+    while(b != 0){
+        int flag = 0;
+        int now = b%10;
+        b = b/10;
+        for(int i = 0; i < arr.size(); i++){
+            if(arr.get(i) == now){
+                arr.remove(i);
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 0)
+            sum +=1;
+    }
+    if(arr.size() == 1 &&sum ==1) return true;
+    return false;
+}
