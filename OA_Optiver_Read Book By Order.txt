@@ -1,0 +1,94 @@
+You have an array of integers audioBooks where audioBooks[i] is the amount of time in minutes needed to listen to the ith audiobook fully. You are listening to the audiobooks in a cyclic order:
+- For the first time, you pick the audiobook at index 0 on your list.
+- The next time, you pick the audiobook at index 1 on your list.
+- The next time, you pick the audiobook at index 2 on your list.
+- After picking the last audiobook on your list, you return to index o again.
+
+Also, you have a list of event logs. An event can be:
+- "LISTEN <minutes>"- pick the next audiobook following the cyclic order described above and listen to it for <minutes> time if you have not finished that audiobook yet (i.e. if the listening time is less than the length of that audiobook). Note that the <minutes> value will always be less than or equal to the remaining listening time for the current audiobook you are supposed to listen to. lf you complete the book, it should stay on the list, so all audiobook indices stay the same.
+- "DROP <i>"- you lose interest in the audiobook at the index i and decide not to listen to it in the future. Note that the audiobook is removed from your list, so all audiobook indices stay the same. Note that dropping an audiobook doesn't affect the listening order, so for the succeeding LISTEN operation, continue after the audiobook you listened to the last.
+
+Notes:
+- If the audiobook at index k is completed (listening time of that audiobook is equal to audiobooks[k] ), then it should be skipped. 
+- If the audiobook at index k no longer interests you, then it should be skipped.
+
+Return the audiobook index that has the highest listen time. In the case of a return the audiobook with the largest index.
+
+
+
+
+
+import java.util.*;
+public class Main {
+
+    public static int getNumber(String s) {
+        int i = 0;
+        while (s.charAt(i) != '<') {
+            i++;
+        }
+        i++;
+        int res = 0;
+        for (; s.charAt(i) != '>'; i++) {
+            res = res * 10 + s.charAt(i) - '0';
+        }
+        return res;
+    }
+
+    public static int solve(int[] audiobooks, String[] logs) {
+        int n = audiobooks.length;
+        int[] times = new int[n];
+        boolean[] drops = new boolean[n];
+        int index = 0;
+        for (String s: logs) {
+            if (s.startsWith("LISTEN") && !drops[index]) {
+                int time = getNumber(s);
+                audiobooks[index] -= time;
+                if (audiobooks[index] == 0) {
+                    drops[index] = true;
+                }
+                times[index] += time;
+
+                index = (index + 1) % n;
+            }
+            if (s.startsWith("DROP")) {
+                int id = getNumber(s);
+                drops[id] = true;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if (times[i] > times[res]) {
+                res = i;
+            }
+        }
+        return res;
+    }
+
+
+
+    public static void main(String[] args) {
+        String[] logs = new String[] {
+                              // {7, 6, 8, 3 ,9}
+                "LISTEN <5>", // {2, 6, 8, 3 ,9}
+                "LISTEN <4>", // {2, 2, 8, 3 ,9}
+                "DROP <4>",   // {2, 2, 8, 3 ,x}
+                "LISTEN <1>", // {2, 2, 7, 3 ,x}
+                "LISTEN <2>", // {2, 2, 7, 1 ,x}
+                "LISTEN <5>", // {2, 2, 7, 1 ,x}
+                "DROP <1>",  // {2, x, 7, 1 ,x}
+                "LISTEN <2>", // {0, x, 7, 1 ,x}
+                "LISTEN <3>", // {0, x, 7, 1 ,x}
+        };
+        int[] aud = new int[] {
+                7, // 0
+                6, // 1
+                8, // 2
+                3, // 3
+                9  // 4
+        };
+        System.out.print(solve(aud, logs));
+
+    }
+
+
+}
