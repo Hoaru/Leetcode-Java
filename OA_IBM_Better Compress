@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+
+    public static String solve(String s) {
+        int n = s.length();
+        if (n == 1) {
+            return s;
+        }
+        HashMap<Character, Integer> map = new HashMap<>();
+        int start = 1;
+        char letter = s.charAt(0);
+        for (int i = 2; i < s.length(); i++) {
+            if (Character.isAlphabetic(s.charAt(i))) {
+                int times = Integer.valueOf(s.substring(start, i));
+                start = i + 1;
+                map.put(letter, map.getOrDefault(letter, 0) + times);
+                letter = s.charAt(i);
+            }
+        }
+        map.put(letter, map.getOrDefault(letter, 0) + Integer.valueOf(s.substring(start)));
+        ArrayList<Character> arr = new ArrayList<>(map.keySet());
+        Collections.sort(arr);
+        StringBuffer sb = new StringBuffer();
+        for (char c : arr) {
+            sb.append(c);
+            sb.append(map.get(c));
+        }
+        return sb.toString();
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(solve("a3c99b2c1b7z8a0"));
+    }
+}
