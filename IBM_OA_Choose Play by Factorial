@@ -1,0 +1,34 @@
+import java.util.*;
+public class Main {
+
+    public static int calculate(int e) {
+        int sum = 0;
+        while (e != 0) {
+            int curr = e % 10;
+            int total = 1;
+            while (curr > 0) {
+                total *= curr--;
+            }
+            sum += total;
+            e /= 10;
+        }
+        return sum;
+    }
+
+    public static int solve(int num) {
+        HashSet<Integer> set = new HashSet<>();
+        int max = Integer.MIN_VALUE;
+        while (!set.contains(num)) {
+            set.add(num);
+            max = Math.max(max, num);
+            num = calculate(num);
+        }
+        return max * set.size();
+    }
+
+
+    public static void main(String[] args) {
+        //int[] arr1 = new int[]{4,24,26,722,5044,169, 363601,1454};
+        System.out.print(solve(4));
+    }
+}
