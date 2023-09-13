@@ -1,0 +1,38 @@
+// Approach 2: Top-Down DP (Memoization)
+
+// Time complexity: O(n * k + m * k)
+// Space complexity: O(m * k)
+
+class Solution {
+    int[][] counts;
+    Long[][] dp;
+    int MOD = (int) (Math.pow(10, 9) + 7);
+
+    public int numWays(String[] words, String target) {
+        counts = new int[26][words[0].length()];
+        dp = new Long[words[0].length()][target.length()];
+
+        for (String word : words) {
+            for (int i = 0; i < word.length(); i++) {
+                counts[word.charAt(i) - 'a'][i]++;
+            }
+        }
+        return (int) helper(target, 0, 0);
+    }
+
+    private long helper(String target, int i, int k) {
+        if (k == target.length()) {
+            return 1;
+        }
+        if (i == counts[0].length) {
+            return 0;
+        }
+        if (dp[i][k] != null) {
+            return dp[i][k];
+        }
+        dp[i][k] = helper(target, i + 1, k);
+        dp[i][k] += counts[target.charAt(k) - 'a'][i] * helper(target, i + 1, k + 1);
+
+        return dp[i][k] % MOD;
+    }
+}
